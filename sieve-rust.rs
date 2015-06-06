@@ -29,7 +29,7 @@ fn main() {
         primes[1] = false;
     }
 
-    for i in 0..max {
+    for i in 0..(max as f64).sqrt() as usize {
         if primes[i] {
             let mut mult = i << 1;
             while mult < max {
