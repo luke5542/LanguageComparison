@@ -4,5 +4,6 @@ This is a collection of programs written in various languages to perform the exa
 
 #### To Run:
 + Make sure you have the compilers/interpreters for these languages installed correctly
++ Clone this repo
 + Run the compile-all script
 + Run the run-all script

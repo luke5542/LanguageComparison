@@ -33,8 +33,4 @@ object SieveScala {
     }
     println("Num Primes: " + foundPrimes);
   }
-
-  /*def findPrimes(max: Int) {
-      var primes = tabulate[Boolean](max)((i) => i > 2)
-  }*/
 }
