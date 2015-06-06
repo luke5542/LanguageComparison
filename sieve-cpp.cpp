@@ -14,9 +14,7 @@ int main(int argc, char const** argv)
     int max = std::atoi(argv[1]);
     int count = 0;
 
-    //bool *primes = new bool[max];
     std::vector<bool> primes (max, true);
-    //fill(primes, primes+max, true);
     primes[0] = primes[1] = false;
 
     int sqrtMax = (int) ceil(sqrt(max));
@@ -24,7 +22,7 @@ int main(int argc, char const** argv)
     {
         if (primes[i])
         {
-            int mult = i<<1;
+            int mult = i << 1;
             count++;
             while(mult < max)
             {
@@ -34,14 +32,10 @@ int main(int argc, char const** argv)
         }
     }
 
-    //std::vector<int> found;
-    //found.reserve(count);
-
     int numPrimes = 0;
     for (int i = 0; i < max; ++i) {
         if (primes[i]) {
             numPrimes++;
-            //found.push_back(i);
         }
     }
 

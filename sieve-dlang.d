@@ -1,3 +1,5 @@
+module sieve;
+
 import std.stdio;
 import std.array;
 import std.conv;
@@ -5,7 +7,6 @@ import std.math;
 
 void main(char[][] args)
 {
-
     int max = to!int(args[1]);
     int count = 0;
 
@@ -29,7 +30,7 @@ void main(char[][] args)
     }
 
     int i = 0;
-    foreach(int index, bool b; primes)
+    foreach(b; primes)
     {
         if(b)
         {

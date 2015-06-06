@@ -1,0 +1,62 @@
+#!/bin/bash
+sieveSize=1000000
+
+if [ $# -eq 0 ]
+  then
+    echo "No arguments supplied, using defaults."
+else
+  if [ -z "$1" ]
+    then
+      echo "No argument supplied, using defaults."
+  else
+    sieveSize=$1
+  fi
+fi
+
+
+#Check for existence of cpp version before running
+if hash ./sieve-cpp 2>/dev/null; then
+    echo "Running C++ sieve"
+    time ./sieve-cpp $sieveSize
+    echo ""
+else
+    echo "Error: No C++ sieve found..."
+fi
+
+#Check for existence of dmd version before running
+if hash ./sieve-dlang 2>/dev/null; then
+    echo "Running DMD sieve"
+    time ./sieve-dlang $sieveSize
+    echo " "
+else
+    echo "Error: No D sieve found..."
+fi
+
+#Check for existence of Rust version before running
+if hash ./sieve-rust 2>/dev/null; then
+    echo "Running Rust sieve"
+    time ./sieve-rust $sieveSize
+    echo " "
+else
+    echo "Error: No Rust sieve found..."
+fi
+
+#Check for existence of Java version before running
+if hash ./SieveJava.class 2>/dev/null; then
+    echo "Running Java sieve"
+    time java SieveJava $sieveSize
+    echo " "
+else
+    echo "Error: No Java sieve found..."
+fi
+
+#Check for existence of Scala version before running
+if hash ./SieveScala.class 2>/dev/null; then
+    echo "Running Scala sieve"
+    time scala SieveScala $sieveSize
+    echo " "
+else
+    echo "Error: No Scala sieve found..."
+fi
+
+echo "Done."
