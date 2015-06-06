@@ -3,8 +3,7 @@ import math
 
 max = int(sys.argv[1])
 
-primes = [False, False]
-primes.extend([True] * (max - 2))
+primes = [False, False] + [True] * (max - 2)
 
 for num in range(2, math.ceil(math.sqrt(max))):
     if primes[num]:
