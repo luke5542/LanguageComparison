@@ -3,11 +3,11 @@ import math
 
 max = int(sys.argv[1])
 
-primes = [False, False] + [True] * (max - 2)
+primes = [False] * 2 + [True] * (max - 1)
 
-for num in range(2, math.ceil(math.sqrt(max))):
+for num in range(2, int(math.ceil(math.sqrt(max)))):
     if primes[num]:
-        for square in range(int(math.pow(num, 2)), max, num):
+        for square in range(int(num**2), max + 1, num):
             primes[square] = False
 
 print("Number of primes: " + str(primes.count(True)))
