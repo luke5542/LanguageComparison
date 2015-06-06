@@ -1,11 +1,14 @@
+#!/bin/bash
+
+mkdir bin
 
 #Check for existence of clang or gcc before compiling
 if hash clang++ 2>/dev/null; then
     echo "Compiling Clang++"
-    clang++ -O3 sieve-cpp.cpp -o sieve-cpp
+    clang++ -O3 sieve-cpp.cpp -o bin/sieve-cpp
 else if hash g++ 2>/dev/null; then
     echo "Compiling gcc"
-    g++ -O3 sieve-cpp.cpp -o sieve-cpp
+    g++ -O3 sieve-cpp.cpp -o bin/sieve-cpp
 else
     echo "No C++ compiler found..."
 fi
@@ -14,7 +17,7 @@ fi
 #Check for existence of dmd before compiling
 if hash dmd 2>/dev/null; then
     echo "Compiling DMD"
-    dmd -O -release -inline sieve-dlang.d
+    dmd -O -release -inline -ofbin/sieve-dlang sieve-dlang.d
 else
     echo "Error: DMD not found..."
 fi
@@ -22,7 +25,7 @@ fi
 #Check for existence of rustc before compiling
 if hash rustc 2>/dev/null; then
     echo "Compiling Rust"
-    rustc -O sieve-rust.rs
+    rustc -O sieve-rust.rs -o bin/sieve-rust
 else
     echo "Error: Rust not found..."
 fi
@@ -31,6 +34,7 @@ fi
 if hash javac 2>/dev/null; then
     echo "Compiling Java"
     javac SieveJava.java
+    mv *.class ./bin/
 else
     echo "Error: Java not found..."
 fi
@@ -39,6 +43,7 @@ fi
 if hash scalac 2>/dev/null; then
     echo "Compiling Scala"
     scalac SieveScala.scala
+    mv *.class ./bin/
 else
     echo "Error: Scala not found..."
 fi

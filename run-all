@@ -1,5 +1,5 @@
 #!/bin/bash
-sieveSize=1000000
+sieveSize=10000000
 
 if [ $# -eq 0 ]
   then
@@ -13,6 +13,8 @@ else
   fi
 fi
 
+#Change directories to the compiled sieves' location
+cd bin
 
 #Check for existence of cpp version before running
 if hash ./sieve-cpp 2>/dev/null; then
@@ -57,6 +59,23 @@ if hash ./SieveScala.class 2>/dev/null; then
     echo " "
 else
     echo "Error: No Scala sieve found..."
+fi
+
+cd ..
+
+#We have finished running the compiled sieves, now run the interpreted
+
+#Check for existence of Python and Python sieve version
+if hash python 2>/dev/null; then
+    if hash ./sieve-py.py 2>/dev/null; then
+        echo "Running Python sieve"
+        time python sieve-py.py $sieveSize
+        echo " "
+    else
+        echo "Error: No Python sieve found..."
+    fi
+else
+    echo "Error: No Python sieve found..."
 fi
 
 echo "Done."

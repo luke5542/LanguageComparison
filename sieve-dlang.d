@@ -8,19 +8,18 @@ import std.math;
 void main(char[][] args)
 {
     int max = to!int(args[1]);
-    int count = 0;
 
     bool[] primes = new bool[max];
     primes[2..max] = true;
     primes[0..2] = false;
 
     //Faze out all invalid primes.
-    foreach(int i; 0 .. cast(int) ceil(sqrt(cast(float) max)))
+    int sqrtMax = cast(int) ceil(sqrt(cast(float) max));
+    foreach(int i; 0 .. sqrtMax)
     {
         if(primes[i])
         {
             int mult = i << 1;
-            count++;
             while(mult < max)
             {
                 primes[mult] = false;
