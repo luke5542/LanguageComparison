@@ -20,7 +20,7 @@ fi
 #Change directories to the compiled sieves' location
 if [ -d "bin" ]; then
   cd bin
-  
+
   #Check for existence of cpp version before running
   if hash ./sieve-cpp 2>/dev/null; then
       echo "Running C++ sieve"
@@ -80,7 +80,17 @@ if hash python3 2>/dev/null; then
         echo "Error: No Python sieve found..."
     fi
 else
-    echo "Error: No Python sieve found..."
+    if hash python 2>/dev/null; then
+        if hash ./sieve-py.py 2>/dev/null; then
+            echo "Running Python sieve"
+            time python sieve-py.py $sieveSize
+            echo " "
+        else
+            echo "Error: No Python sieve found..."
+        fi
+    else
+        echo "Error: No Python sieve found..."
+    fi
 fi
 
 if hash ruby 2>/dev/null; then
