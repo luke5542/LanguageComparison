@@ -61,21 +61,32 @@ else
     echo "Error: No Scala sieve found..."
 fi
 
+#We have finished running the compiled sieves, now run the interpreted
 cd ..
 
-#We have finished running the compiled sieves, now run the interpreted
-
 #Check for existence of Python and Python sieve version
-if hash python 2>/dev/null; then
+if hash python3 2>/dev/null; then
     if hash ./sieve-py.py 2>/dev/null; then
         echo "Running Python sieve"
-        time python sieve-py.py $sieveSize
+        time python3 sieve-py.py $sieveSize
         echo " "
     else
         echo "Error: No Python sieve found..."
     fi
 else
     echo "Error: No Python sieve found..."
+fi
+
+if hash ruby 2>/dev/null; then
+    if hash ./sieve_ruby.rb 2>/dev/null; then
+        echo "Running Ruby sieve"
+        time ruby sieve_ruby.rb $sieveSize
+        echo " "
+    else
+        echo "Error: No Ruby sieve found..."
+    fi
+else
+    echo "Error: No Ruby sieve found..."
 fi
 
 echo "Done."
