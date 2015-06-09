@@ -17,6 +17,8 @@ int main(int argc, char const** argv)
     std::vector<bool> primes (max, true);
     primes[0] = primes[1] = false;
 
+    int numPrimes = max - 2;
+
     int sqrtMax = (int) ceil(sqrt(max));
     for (int i = 0; i < sqrtMax; ++i)
     {
@@ -26,20 +28,16 @@ int main(int argc, char const** argv)
             count++;
             while(mult < max)
             {
-                primes[mult] = false;
+                if(primes[mult]) {
+                    --numPrimes;
+                    primes[mult] = false;
+                }
                 mult += i;
             }
         }
     }
 
-    int numPrimes = 0;
-    for (int i = 0; i < max; ++i) {
-        if (primes[i]) {
-            numPrimes++;
-        }
-    }
-
-    std::cout << numPrimes << std::endl;
+    std::cout << "Number of primes: " << numPrimes << std::endl;
 
     return 0;
 }

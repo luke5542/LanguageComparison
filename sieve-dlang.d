@@ -13,6 +13,8 @@ void main(char[][] args)
     primes[2..max] = true;
     primes[0..2] = false;
 
+    int primeCount = max - 2;
+
     //Faze out all invalid primes.
     int sqrtMax = cast(int) ceil(sqrt(cast(float) max));
     foreach(int i; 0 .. sqrtMax)
@@ -22,20 +24,14 @@ void main(char[][] args)
             int mult = i << 1;
             while(mult < max)
             {
-                primes[mult] = false;
+                if(primes[mult]) {
+                    --primeCount;
+                    primes[mult] = false;
+                }
                 mult += i;
             }
         }
     }
 
-    int i = 0;
-    foreach(b; primes)
-    {
-        if(b)
-        {
-            i++;
-        }
-    }
-
-    writeln("Num Primes: ", i);
+    writeln("Number of primes: ", primeCount);
 }

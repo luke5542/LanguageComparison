@@ -29,22 +29,19 @@ fn main() {
         primes[1] = false;
     }
 
+    let mut prime_count = max - 2;
     for i in 0..(max as f64).sqrt() as usize {
         if primes[i] {
             let mut mult = i << 1;
             while mult < max {
-                primes[mult] = false;
+                if primes[mult] {
+                    prime_count -= 1;
+                    primes[mult] = false;
+                }
                 mult += i;
             }
         }
     }
 
-    let mut count = 0;
-
-    for &prime in primes.iter() {
-        if prime {
-            count += 1;
-        }
-    }
-    println!("Number of primes: {}", count)
+    println!("Number of primes: {}", prime_count)
 }

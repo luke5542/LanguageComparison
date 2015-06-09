@@ -70,6 +70,19 @@ if [ -d "bin" ]; then
   cd ..
 fi
 
+#Check for existence of Ruby and Ruby sieve version
+if hash ruby 2>/dev/null; then
+    if hash ./sieve_ruby.rb 2>/dev/null; then
+        echo "Running Ruby sieve"
+        time ruby sieve_ruby.rb $sieveSize
+        echo " "
+    else
+        echo "Error: No Ruby sieve found..."
+    fi
+else
+    echo "Error: Ruby not found..."
+fi
+
 #Check for existence of Python and Python sieve version
 PYVERSION=`python -c "import sys;t='{v[0]}.{v[1]}'.format(v=list(sys.version_info[:2]));sys.stdout.write(t)";`
 if (( $(bc <<< "$PYVERSION < 3") == 1 )); then
@@ -96,19 +109,6 @@ else
     else
         echo "Error: Python 3 not found..."
     fi
-fi
-
-#Check for existence of Ruby and Ruby sieve version
-if hash ruby 2>/dev/null; then
-    if hash ./sieve_ruby.rb 2>/dev/null; then
-        echo "Running Ruby sieve"
-        time ruby sieve_ruby.rb $sieveSize
-        echo " "
-    else
-        echo "Error: No Ruby sieve found..."
-    fi
-else
-    echo "Error: Ruby not found..."
 fi
 
 #Check for existence of Lua and Lua sieve version

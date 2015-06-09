@@ -1,6 +1,8 @@
+require "table"
+
 max = tonumber(arg[1])
 
-primes = {false}
+primes = {false, false, false}
 for num = 2, max do
   primes[num] = true
 end

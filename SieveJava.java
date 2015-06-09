@@ -19,6 +19,7 @@ public class SieveJava
         primes[2] = true;
 
         //Faze out all invalid primes.
+        int foundPrimes = max - 2;
         int sqrtMax = (int) Math.ceil(Math.sqrt(max));
         for(int i = 0; i < sqrtMax; i++)
         {
@@ -27,21 +28,15 @@ public class SieveJava
                 int mult = i*2;
                 while(mult < max)
                 {
-                    primes[mult] = false;
+                    if(primes[mult]) {
+                        foundPrimes--;
+                        primes[mult] = false;
+                    }
                     mult += i;
                 }
             }
         }
 
-        //Grab the list of valid primes
-        int foundPrimes = 0;
-        for(int i = 0; i < max; i++)
-        {
-            if(primes[i])
-            {
-                foundPrimes++;
-            }
-        }
-        System.out.println("Num Primes: " + foundPrimes);
+        System.out.println("Number of primes: " + foundPrimes);
     }
 }
