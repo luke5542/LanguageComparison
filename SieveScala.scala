@@ -8,6 +8,7 @@ object SieveScala {
     var primes = tabulate[Boolean](max)((i) => i > 1);
 
     //Faze out all invalid primes.
+    var foundPrimes = max - 2;
     var sqrtMax = Math.ceil(Math.sqrt(max)).toInt;
     for(i <- 0 to sqrtMax-1)
     {
@@ -16,19 +17,12 @@ object SieveScala {
             var mult = i*2;
             while(mult < max)
             {
-                primes(mult) = false;
+                if(primes(mult)) {
+                    foundPrimes -= 1;
+                    primes(mult) = false;
+                }
                 mult += i;
             }
-        }
-    }
-
-    //Grab the list of valid primes
-    var foundPrimes = 0;
-    for(i <- 0 to max-1)
-    {
-        if(primes(i))
-        {
-            foundPrimes += 1;
         }
     }
     println("Num Primes: " + foundPrimes);
