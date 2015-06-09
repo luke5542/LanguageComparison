@@ -150,4 +150,14 @@ else
     echo "Error: Node not found..."
 fi
 
+#Run bash sieve version
+# if hash ./sieve-sh.sh 2>/dev/null; then
+#     echo "Running Shell sieve"
+#     time ./sieve-sh.sh sieve $sieveSize
+#     echo " "
+# else
+#     echo "Error: No Shell sieve found..."
+# fi
+# else
+
 echo "Done."
