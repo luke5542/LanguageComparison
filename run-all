@@ -92,32 +92,30 @@ else
     echo "Error: Ruby not found..."
 fi
 
-#Check for existence of Python and Python sieve version
-PYVERSION=`python -c "import sys;t='{v[0]}.{v[1]}'.format(v=list(sys.version_info[:2]));sys.stdout.write(t)";`
-if (( $(bc <<< "$PYVERSION < 3") == 1 )); then
-    if hash python3 2>/dev/null; then
-        if hash ./sieve-py.py 2>/dev/null; then
-            echo "Running Python 3 sieve"
-            time python3 sieve-py.py $sieveSize
-            echo " "
-        else
-            echo "Error: No Python sieve found..."
-        fi
+#Check for existence of Python3 and Python sieve version
+if hash python3 2>/dev/null; then
+    if hash ./sieve-py.py 2>/dev/null; then
+        echo "Running Python 3 sieve"
+        time python3 sieve-py.py $sieveSize
+        echo " "
     else
-      echo "Error: Python 3 not found..."
+        echo "Error: No Python sieve found..."
     fi
 else
-    if hash python 2>/dev/null; then
-        if hash ./sieve-py.py 2>/dev/null; then
-            echo "Running Python sieve"
-            time python sieve-py.py $sieveSize
-            echo " "
-        else
-            echo "Error: No Python sieve found..."
-        fi
+  echo "Error: Python 3 not found..."
+fi
+
+#Check for existence of Python 2 and Python sieve version
+if hash python 2>/dev/null; then
+    if hash ./sieve-py.py 2>/dev/null; then
+        echo "Running Python 2 sieve"
+        time python sieve-py.py $sieveSize
+        echo " "
     else
-        echo "Error: Python 3 not found..."
+        echo "Error: No Python sieve found..."
     fi
+else
+    echo "Error: Python 2 not found..."
 fi
 
 #Check for existence of Lua and Lua sieve version
