@@ -1,11 +1,12 @@
 #!/bin/bash
-
-mkdir bin
+if [ ! -d "bin" ]; then
+    mkdir bin
+fi
 
 #Check for existence of clang or gcc before compiling
 if hash clang++ 2>/dev/null; then
     echo "Compiling Clang++"
-    clang++ -O3 sieve-cpp.cpp -o bin/sieve-cpp
+    clang++ -std=c++11 -O3 sieve-cpp.cpp -o bin/sieve-cpp
 else if hash g++ 2>/dev/null; then
     echo "Compiling gcc"
     g++ -O3 sieve-cpp.cpp -o bin/sieve-cpp

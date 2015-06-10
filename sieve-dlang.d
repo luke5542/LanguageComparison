@@ -4,17 +4,20 @@ import std.stdio;
 import std.array;
 import std.conv;
 import std.math;
+import std.datetime;
 
 void main(char[][] args)
 {
     int max = to!int(args[1]);
+
+    StopWatch sw;
+    sw.start();
 
     bool[] primes = new bool[max];
     primes[2..max] = true;
     primes[0..2] = false;
 
     int primeCount = max - 2;
-
     //Faze out all invalid primes.
     int sqrtMax = cast(int) ceil(sqrt(cast(float) max));
     foreach(int i; 0 .. sqrtMax)
@@ -32,6 +35,8 @@ void main(char[][] args)
             }
         }
     }
+    auto time = sw.peek().msecs;
 
     writeln("Number of primes: ", primeCount);
+    writeln("Execution time: ", time, "ms");
 }

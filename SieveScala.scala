@@ -5,6 +5,8 @@ object SieveScala {
   def main(args: Array[String]) {
     var max = Integer.parseInt(args(0));
 
+    val start = System.currentTimeMillis;
+
     var primes = tabulate[Boolean](max)((i) => i > 1);
 
     //Faze out all invalid primes.
@@ -25,6 +27,10 @@ object SieveScala {
             }
         }
     }
+
+    var end = System.currentTimeMillis;
+
     println("Num Primes: " + foundPrimes);
+    println("Execution time: " + (end - start) + "ms");
   }
 }

@@ -3,6 +3,8 @@
 #include <cstdlib>
 #include <math.h>
 #include <stdio.h>
+#include <chrono>
+using namespace std;
 
 int main(int argc, char const** argv)
 {
@@ -11,10 +13,11 @@ int main(int argc, char const** argv)
         return 1;
     }
 
-    int max = std::atoi(argv[1]);
+    int max = atoi(argv[1]);
     int count = 0;
 
-    std::vector<bool> primes (max, true);
+    auto begin = chrono::high_resolution_clock::now();
+    vector<bool> primes (max, true);
     primes[0] = primes[1] = false;
 
     int numPrimes = max - 2;
@@ -37,7 +40,10 @@ int main(int argc, char const** argv)
         }
     }
 
-    std::cout << "Number of primes: " << numPrimes << std::endl;
+    auto end = chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count();
+    cout << "Number of primes: " << numPrimes << endl;
+    cout << "Execution time: " << duration << "ms" << endl;
 
     return 0;
 }

@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.text.DecimalFormat;
+import java.math.RoundingMode;
 
 public class SieveJava
 {
@@ -7,6 +9,8 @@ public class SieveJava
     {
 
         int max = Integer.parseInt(args[0]);
+        DecimalFormat df = new DecimalFormat("#.###"); df.setRoundingMode(RoundingMode.CEILING);
+        long startTime = System.nanoTime();
 
         boolean[] primes = new boolean[max];
         for(int i = 0; i < max; i++)
@@ -37,6 +41,10 @@ public class SieveJava
             }
         }
 
+        long endTime = System.nanoTime();
+
         System.out.println("Number of primes: " + foundPrimes);
+        System.out.println("Execution time: " +
+          df.format((endTime - startTime)/1e6) + "ms");
     }
 }
