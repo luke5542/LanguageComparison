@@ -6,19 +6,22 @@ fi
 #Check for existence of clang or gcc before compiling
 if hash clang++ 2>/dev/null; then
     echo "Compiling Clang++"
-    clang++ -std=c++11 -O3 sieve-cpp.cpp -o bin/sieve-cpp
-else if hash g++ 2>/dev/null; then
-    echo "Compiling gcc"
-    g++ -O3 sieve-cpp.cpp -o bin/sieve-cpp
+    clang++ -std=c++11 -O3 sieve-cpp.cpp -o bin/sieve-cpp-clang
 else
-    echo "No C++ compiler found..."
+    echo "No clang++ compiler found..."
 fi
+#Check for existence of g++ before compiling
+if hash g++ 2>/dev/null; then
+    echo "Compiling g++"
+    g++ -std=c++11 -O3 sieve-cpp.cpp -o bin/sieve-cpp-gcc
+else
+    echo "No g++ compiler found..."
 fi
 
 #Check for existence of dmd before compiling
 if hash dmd 2>/dev/null; then
     echo "Compiling DMD"
-    dmd -O -release -inline -ofbin/sieve-dlang sieve-dlang.d
+    dmd -O -release -inline -boundscheck=off -ofbin/sieve-dlang sieve-dlang.d
 else
     echo "Error: DMD not found..."
 fi

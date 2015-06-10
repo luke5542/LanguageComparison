@@ -21,13 +21,22 @@ fi
 if [ -d "bin" ]; then
   cd bin
 
-  #Check for existence of cpp version before running
-  if hash ./sieve-cpp 2>/dev/null; then
-      echo "Running C++ sieve"
-      time ./sieve-cpp $sieveSize
+  #Check for existence of clang C++ version before running
+  if hash ./sieve-cpp-clang 2>/dev/null; then
+      echo "Running Clang sieve"
+      time ./sieve-cpp-clang $sieveSize
       echo ""
   else
-      echo "Error: No C++ sieve found..."
+      echo "Error: No clang++ sieve found..."
+  fi
+
+  #Check for existence of gcc C++ version before running
+  if hash ./sieve-cpp-gcc 2>/dev/null; then
+      echo "Running GCC sieve"
+      time ./sieve-cpp-gcc $sieveSize
+      echo ""
+  else
+      echo "Error: No g++ sieve found..."
   fi
 
   #Check for existence of dmd version before running
