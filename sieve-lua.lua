@@ -2,14 +2,18 @@ require "table"
 
 max = tonumber(arg[1])
 
-startTime = os.clock()
-primes = {false, false, false}
+local getTime = os.clock
+local sqrt = math.sqrt
+local ceil = math.ceil
+
+local startTime = getTime()
+local primes = {false, false, false}
 for num = 2, max do
   primes[num] = true
 end
-primeCount = max - 1
+local primeCount = max - 1
 
-for num = 2, math.ceil(math.sqrt(max)) do
+for num = 2, ceil(sqrt(max)) do
   if primes[num] then
     for square = num ^ 2, max + 1, num do
       if primes[square] then
@@ -20,6 +24,6 @@ for num = 2, math.ceil(math.sqrt(max)) do
   end
 end
 
-totalTime = os.clock()-startTime
+totalTime = getTime()-startTime
 print("Number of primes: " .. primeCount)
 print("Execution time: " .. (totalTime*1000) .. "ms")
