@@ -2,6 +2,7 @@ require "table"
 
 max = tonumber(arg[1])
 
+startTime = os.clock()
 primes = {false, false, false}
 for num = 2, max do
   primes[num] = true
@@ -19,4 +20,6 @@ for num = 2, math.ceil(math.sqrt(max)) do
   end
 end
 
+totalTime = os.clock()-startTime
 print("Number of primes: " .. primeCount)
+print("Execution time: " .. (totalTime*1000) .. "ms")
