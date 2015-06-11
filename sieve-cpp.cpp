@@ -27,7 +27,7 @@ int main(int argc, char const** argv)
     {
         if (primes[i])
         {
-            int mult = i << 1;
+            int mult = i * i;
             count++;
             while(mult < max)
             {

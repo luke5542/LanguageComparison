@@ -16,7 +16,7 @@ object SieveScala {
     {
         if(primes(i))
         {
-            var mult = i*2;
+            var mult = i*i;
             while(mult < max)
             {
                 if(primes(mult)) {

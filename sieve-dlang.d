@@ -24,7 +24,7 @@ void main(char[][] args)
     {
         if(primes[i])
         {
-            int mult = i << 1;
+            int mult = i * i;
             while(mult < max)
             {
                 if(primes[mult]) {
