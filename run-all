@@ -23,7 +23,7 @@ if [ -d "bin" ]; then
 
   #Check for existence of clang C++ version before running
   if hash ./sieve-cpp-clang 2>/dev/null; then
-      echo "Running Clang sieve"
+      echo "Running Clang++ sieve"
       time ./sieve-cpp-clang $sieveSize
       echo ""
   else
@@ -32,7 +32,7 @@ if [ -d "bin" ]; then
 
   #Check for existence of gcc C++ version before running
   if hash ./sieve-cpp-gcc 2>/dev/null; then
-      echo "Running GCC sieve"
+      echo "Running G++ sieve"
       time ./sieve-cpp-gcc $sieveSize
       echo ""
   else
@@ -46,6 +46,15 @@ if [ -d "bin" ]; then
       echo ""
   else
       echo "Error: No gcc sieve found..."
+  fi
+
+  #Check for existence of clang C version before running
+  if hash ./sieve-c-clang 2>/dev/null; then
+      echo "Running Clang sieve"
+      time ./sieve-c-clang $sieveSize
+      echo ""
+  else
+      echo "Error: No clang sieve found..."
   fi
 
   #Check for existence of dmd version before running
@@ -82,6 +91,20 @@ if [ -d "bin" ]; then
       echo " "
   else
       echo "Error: No Scala sieve found..."
+  fi
+
+
+  #Check for existence of Lua and Lua sieve version
+  if hash lua 2>/dev/null; then
+      if hash ./sieve-lua.luac 2>/dev/null; then
+          echo "Running Luac sieve"
+          time lua sieve-lua.luac $sieveSize
+          echo " "
+      else
+          echo "Error: No Luac sieve found..."
+      fi
+  else
+      echo "Error: Luac not found..."
   fi
 
   #We have finished running the compiled sieves, now run the interpreted
@@ -153,30 +176,17 @@ else
     echo "Error: Python 2 not found..."
 fi
 
-#Check for existence of Lua and Lua sieve version
-if hash lua 2>/dev/null; then
-    if hash ./sieve-lua.lua 2>/dev/null; then
-        echo "Running Lua sieve"
-        time lua sieve-lua.lua $sieveSize
+#Check for existence of Node and JS sieve version
+if hash node 2>/dev/null; then
+    if hash ./sieve-js.js 2>/dev/null; then
+        echo "Running JavaScript sieve"
+        time node --max-old-space-size=8192 sieve-js.js $sieveSize
         echo " "
     else
-        echo "Error: No Lua sieve found..."
+        echo "Error: No JavaScript sieve found..."
     fi
 else
-    echo "Error: Lua not found..."
-fi
-
-#Check for existence of Lua and Lua sieve version
-if hash lua 2>/dev/null; then
-    if hash ./sieve-lua.luac 2>/dev/null; then
-        echo "Running Luac sieve"
-        time lua sieve-lua.lua $sieveSize
-        echo " "
-    else
-        echo "Error: No Luac sieve found..."
-    fi
-else
-    echo "Error: Luac not found..."
+    echo "Error: Node not found..."
 fi
 
 #Check for existence of Perl and Perl sieve version
@@ -192,20 +202,7 @@ else
     echo "Error: Perl not found..."
 fi
 
-#Check for existence of Node and JS sieve version
-if hash node 2>/dev/null; then
-    if hash ./sieve-js.js 2>/dev/null; then
-        echo "Running JavaScript sieve"
-        time node --max-old-space-size=8192 sieve-js.js $sieveSize
-        echo " "
-    else
-        echo "Error: No JavaScript sieve found..."
-    fi
-else
-    echo "Error: Node not found..."
-fi
-
-#Run bash sieve version
+#Run bash sieve version (takes a LONG time...)
 # if hash ./sieve-sh.sh 2>/dev/null; then
 #     echo "Running Shell sieve"
 #     time ./sieve-sh.sh sieve $sieveSize
