@@ -35,7 +35,8 @@ RUN \
     && \
 
   # Rust is special - so install that seperately
-  curl -sf -L https://static.rust-lang.org/rustup.sh | /bin/bash && \
+  curl -sf -L https://static.rust-lang.org/rustup.sh -o /tmp/rustup.sh && chmod +x /tmp/rustup.sh && \
+  /bin/bash /tmp/rustup.sh -y && \
   rm -rf /usr/local/share/doc/rust && \
 
 
