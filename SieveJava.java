@@ -29,7 +29,7 @@ public class SieveJava
         {
             if(primes[i])
             {
-                int mult = i*2;
+                int mult = i*i;
                 while(mult < max)
                 {
                     if(primes[mult]) {

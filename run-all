@@ -88,6 +88,19 @@ if [ -d "bin" ]; then
   cd ..
 fi
 
+#Check for existence of Lua and Lua sieve version
+if hash lua 2>/dev/null; then
+    if hash ./sieve-lua.lua 2>/dev/null; then
+        echo "Running Lua sieve"
+        time lua sieve-lua.lua $sieveSize
+        echo " "
+    else
+        echo "Error: No Lua sieve found..."
+    fi
+else
+    echo "Error: Lua not found..."
+fi
+
 #Check for existence of Ruby and Ruby sieve version
 if hash ruby 2>/dev/null; then
     if hash ./sieve_ruby.rb 2>/dev/null; then

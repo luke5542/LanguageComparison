@@ -32,7 +32,7 @@ fn main() {
     let mut prime_count = max - 2;
     for i in 0..(max as f64).sqrt() as usize {
         if primes[i] {
-            let mut mult = i << 1;
+            let mut mult = i * i;
             while mult < max {
                 if primes[mult] {
                     prime_count -= 1;
