@@ -35,15 +35,16 @@ RUN \
   # Symlink Node
   ln /usr/bin/nodejs /usr/bin/node && \
 
+  # Now clean out the apt-get cache
+  apt-get clean && \
+  rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+RUN \
   # Download all the code
   cd /root && \
   git clone https://github.com/luke5542/LanguageComparison.git && \
   cd LanguageComparison && \
   ./compile-all
-
-  # Now clean out the apt-get cache
-  apt-get clean 
-  rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 WORKDIR /root/LanguageComparison
 
