@@ -1,5 +1,7 @@
 FROM phusion/baseimage
 
+MAINTAINER George Vanburgh
+
 RUN \
   # Install the DLang repo
   curl http://master.dl.sourceforge.net/project/d-apt/files/d-apt.list -o /etc/apt/sources.list.d/d-apt.list && \
@@ -29,6 +31,11 @@ RUN \
     python2.7-minimal \
     && \
 
+  # Rust is special - so install that seperately
+  curl -sf -L https://static.rust-lang.org/rustup.sh | /bin/bash && \
+  rm -rf /usr/local/share/doc/rust && \
+
+
   # Symlink Clang
   ln /usr/bin/clang++-3.5 /usr/bin/clang++ && \
 
@@ -36,7 +43,7 @@ RUN \
   ln /usr/bin/nodejs /usr/bin/node && \
 
   # Now clean out the apt-get cache
-  apt-get clean && \
+  apt-get autoclean && apt-get clean && \
   rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN \
