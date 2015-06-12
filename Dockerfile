@@ -43,6 +43,7 @@ RUN \
 
   # Symlink Clang
   ln /usr/bin/clang++-3.5 /usr/bin/clang++ && \
+  ln /usr/bin/clang-3.5 /usr/bin/clang && \
 
   # Symlink Node
   ln /usr/bin/nodejs /usr/bin/node && \
