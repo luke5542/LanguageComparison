@@ -1,3 +1,5 @@
+# Most of this should really go in a script...
+
 FROM phusion/baseimage
 
 MAINTAINER George Vanburgh
@@ -8,9 +10,10 @@ RUN \
   apt-get update && \
   apt-get -y --allow-unauthenticated install -y --reinstall d-apt-keyring && \
 
-  # Install Oracle JRE 8 (maybe)
-  # apt-get install -y python-software-properties && \
-  # add-apt-repository ppa:webupd8team/java && \
+  # Install the mono repo
+  apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF && \
+  echo "deb http://download.mono-project.com/repo/debian wheezy main" | sudo tee /etc/apt/sources.list.d/mono-xamarin.list && \
+  echo "deb http://download.mono-project.com/repo/debian wheezy-apache24-compat main" | sudo tee -a /etc/apt/sources.list.d/mono-xamarin.list && \
 
   # Install Rust nightly image
   #add-apt-repository ppa:kevincantu/rust \
@@ -22,13 +25,13 @@ RUN \
     lua5.2 \
     openjdk-7-jdk \
     dmd-bin \
-    # rust \
     g++ \
     nodejs \
     git \
     scala \
     ruby \
     python2.7-minimal \
+    mono-devel \
     && \
 
   # Rust is special - so install that seperately
