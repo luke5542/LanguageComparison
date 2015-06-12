@@ -22,16 +22,17 @@ RUN \
   # Now actually install everything
   apt-get install -y --no-install-recommends \
     clang-3.5 \
-    lua5.2 \
-    openjdk-7-jdk \
     dmd-bin \
     g++ \
-    nodejs \
     git \
-    scala \
-    ruby \
-    python2.7-minimal \
+    lua5.2 \
     mono-devel \
+    nodejs \
+    openjdk-7-jdk \
+    pypy \
+    python2.7-minimal \
+    ruby \
+    scala \
     && \
 
   # Rust is special - so install that seperately
