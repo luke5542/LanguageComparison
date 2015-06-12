@@ -21,7 +21,7 @@ fi
 #Check for existence of gcc before compiling
 if hash gcc 2>/dev/null; then
     echo "Compiling gcc"
-    clang -std=c99 -Ofast sieve-c.c -o bin/sieve-c-gcc
+    clang -lm -std=c99 -Ofast sieve-c.c -o bin/sieve-c-gcc
 else
     echo "No gcc compiler found..."
 fi
