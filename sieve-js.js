@@ -3,14 +3,23 @@ var max = process.argv[2];
 var start = new Date().getTime();
 
 var primes = [false, false];
-for (var num = 2; num <= max; num++) {
+for (var num = 2; num < max; num++) {
   primes[num] = true;
 }
 
-for (var num = 2; num <= Math.sqrt(max); num++) {
+var numPrimes = max - 2;
+
+for (var num = 0; num < Math.sqrt(max); ++num) {
   if (primes[num]) {
-    for (var square = Math.pow(num, 2); square < max + 1; square += num) {
-      primes[square] = false;
+    var square = num * num;
+    while(square < max)
+    {
+      if(primes[square])
+      {
+        --numPrimes;
+        primes[square] = false;
+      }
+      square += num; 
     }
   }
 }

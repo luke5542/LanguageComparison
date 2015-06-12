@@ -14,7 +14,6 @@ int main(int argc, char const** argv)
     }
 
     int max = atoi(argv[1]);
-    int count = 0;
 
     auto begin = chrono::high_resolution_clock::now();
     vector<bool> primes (max, true);
@@ -27,8 +26,7 @@ int main(int argc, char const** argv)
     {
         if (primes[i])
         {
-            int mult = i << 1;
-            count++;
+            int mult = i * i;
             while(mult < max)
             {
                 if(primes[mult]) {
