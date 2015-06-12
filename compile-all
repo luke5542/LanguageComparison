@@ -6,16 +6,24 @@ fi
 #Check for existence of clang or gcc before compiling
 if hash clang++ 2>/dev/null; then
     echo "Compiling Clang++"
-    clang++ -std=c++11 -O3 sieve-cpp.cpp -o bin/sieve-cpp-clang
+    clang++ -std=c++11 -Ofast sieve-cpp.cpp -o bin/sieve-cpp-clang
 else
     echo "No clang++ compiler found..."
 fi
 #Check for existence of g++ before compiling
 if hash g++ 2>/dev/null; then
     echo "Compiling g++"
-    g++ -std=c++11 -O3 sieve-cpp.cpp -o bin/sieve-cpp-gcc
+    g++ -std=c++11 -Ofast sieve-cpp.cpp -o bin/sieve-cpp-gcc
 else
     echo "No g++ compiler found..."
+fi
+
+#Check for existence of gcc before compiling
+if hash gcc 2>/dev/null; then
+    echo "Compiling gcc"
+    clang -std=c99 -Ofast sieve-c.c -o bin/sieve-c-gcc
+else
+    echo "No gcc compiler found..."
 fi
 
 #Check for existence of dmd before compiling
@@ -50,6 +58,14 @@ if hash scalac 2>/dev/null; then
     mv *.class ./bin/
 else
     echo "Error: Scala not found..."
+fi
+
+#Check for existence of Lua before compiling
+if hash luac 2>/dev/null; then
+    echo "Compiling Lua"
+    luac -s -o sieve-lua.luac sieve-lua.lua
+else
+    echo "Error: Lua not found..."
 fi
 
 echo "Done."

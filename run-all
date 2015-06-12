@@ -39,6 +39,15 @@ if [ -d "bin" ]; then
       echo "Error: No g++ sieve found..."
   fi
 
+  #Check for existence of gcc C version before running
+  if hash ./sieve-c-gcc 2>/dev/null; then
+      echo "Running GCC sieve"
+      time ./sieve-c-gcc $sieveSize
+      echo ""
+  else
+      echo "Error: No gcc sieve found..."
+  fi
+
   #Check for existence of dmd version before running
   if hash ./sieve-dlang 2>/dev/null; then
       echo "Running DMD sieve"
@@ -105,6 +114,19 @@ else
     echo "Error: Ruby not found..."
 fi
 
+#Check for existence of Pypy and Python sieve version
+if hash pypy 2>/dev/null; then
+    if hash ./sieve-py.py 2>/dev/null; then
+        echo "Running Pypy sieve"
+        time pypy sieve-py.py $sieveSize
+        echo " "
+    else
+        echo "Error: No Pypy sieve found..."
+    fi
+else
+  echo "Error: Pypy 3 not found..."
+fi
+
 #Check for existence of Python3 and Python sieve version
 if hash python3 2>/dev/null; then
     if hash ./sieve-py.py 2>/dev/null; then
@@ -112,7 +134,7 @@ if hash python3 2>/dev/null; then
         time python3 sieve-py.py $sieveSize
         echo " "
     else
-        echo "Error: No Python sieve found..."
+        echo "Error: No Python 3 sieve found..."
     fi
 else
   echo "Error: Python 3 not found..."
@@ -129,6 +151,32 @@ if hash python 2>/dev/null; then
     fi
 else
     echo "Error: Python 2 not found..."
+fi
+
+#Check for existence of Lua and Lua sieve version
+if hash lua 2>/dev/null; then
+    if hash ./sieve-lua.lua 2>/dev/null; then
+        echo "Running Lua sieve"
+        time lua sieve-lua.lua $sieveSize
+        echo " "
+    else
+        echo "Error: No Lua sieve found..."
+    fi
+else
+    echo "Error: Lua not found..."
+fi
+
+#Check for existence of Lua and Lua sieve version
+if hash lua 2>/dev/null; then
+    if hash ./sieve-lua.luac 2>/dev/null; then
+        echo "Running Luac sieve"
+        time lua sieve-lua.lua $sieveSize
+        echo " "
+    else
+        echo "Error: No Luac sieve found..."
+    fi
+else
+    echo "Error: Luac not found..."
 fi
 
 #Check for existence of Perl and Perl sieve version

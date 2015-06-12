@@ -7,7 +7,7 @@ local sqrt = math.sqrt
 local ceil = math.ceil
 
 local startTime = getTime()
-local primes = {false, false, false}
+local primes = {false, false}
 for num = 2, max do
   primes[num] = true
 end
