@@ -8,3 +8,7 @@
 *.so
 
 bin
+
+# Generated HTML #
+##################
+benchmark.html
