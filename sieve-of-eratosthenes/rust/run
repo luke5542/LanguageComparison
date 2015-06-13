@@ -1,8 +1,21 @@
 #!/bin/bash
-#Check for existence of compiled rust version before running
-if hash ./target/release/sieve_rust 2>/dev/null; then
-    echo "Running Rust sieve"
-    ./target/release/sieve_rust $@
+if [ ! -d "target" ]; then
+    echo "Rust sieve not compiled."
 else
-    echo "Error: compiled Rust version not found..."
+    cd target
+    if [ ! -d "release" ]; then
+        echo "Rust sieve not compiled."
+    else
+        cd release
+        #Check for existence of compiled Rust version before running
+        if hash sieve_rust 2>/dev/null; then
+            echo "Running Rust sieve"
+            time ./sieve_rust $@
+            echo " "
+        else
+            echo "Error: No Rust sieve found..."
+        fi
+        cd ..
+    fi
+    cd ..
 fi

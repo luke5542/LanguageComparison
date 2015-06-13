@@ -1,5 +1,5 @@
 [root]
-name = "sieve-rust"
+name = "sieve_rust"
 version = "1.0.0"
 dependencies = [
  "time 0.1.26 (registry+https://github.com/rust-lang/crates.io-index)",
