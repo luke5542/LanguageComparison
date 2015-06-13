@@ -1,0 +1,15 @@
+#!/bin/bash
+if [ ! -d "bin" ]; then
+    echo "Java sieve not compiled."
+else
+    cd bin
+    #Check for existence of Java version before running
+    if hash ./SieveJava.class 2>/dev/null; then
+        echo "Running Java sieve"
+        time java SieveJava $@
+        echo " "
+    else
+        echo "Error: No Java sieve found..."
+    fi
+    cd ..
+fi

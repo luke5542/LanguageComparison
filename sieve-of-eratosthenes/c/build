@@ -1,0 +1,20 @@
+#!/bin/bash
+if [ ! -d "bin" ]; then
+    mkdir bin
+fi
+
+#Check for existence of gcc before compiling C version
+if hash gcc 2>/dev/null; then
+    echo "Compiling gcc"
+    gcc -std=c99 -Ofast sieve-c.c -o bin/sieve-c-gcc -lm
+else
+    echo "No gcc compiler found..."
+fi
+
+#Check for existence of clang before compiling C version
+if hash clang 2>/dev/null; then
+    echo "Compiling clang"
+    clang -std=c99 -Ofast sieve-c.c -o bin/sieve-c-clang -lm
+else
+    echo "No clang compiler found..."
+fi

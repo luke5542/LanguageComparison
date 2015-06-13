@@ -1,0 +1,15 @@
+#!/bin/bash
+if [ ! -d "bin" ]; then
+    echo "C# sieve not compiled."
+else
+    cd bin
+    #Check for existence of C# version before running
+    if hash ./sieve-cs.exe 2>/dev/null; then
+        echo "Running C# sieve"
+        time mono sieve-cs.exe $@
+        echo " "
+    else
+        echo "Error: No C# sieve found..."
+    fi
+    cd ..
+fi

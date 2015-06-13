@@ -1,0 +1,19 @@
+#!/bin/bash
+if [ ! -d "bin" ]; then
+    mkdir bin
+fi
+
+#Check for existence of clang before compiling C++ version
+if hash clang++ 2>/dev/null; then
+    echo "Compiling Clang++"
+    clang++ -std=c++11 -Ofast sieve-cpp.cpp -o bin/sieve-cpp-clang
+else
+    echo "No clang++ compiler found..."
+fi
+#Check for existence of g++ before compiling C++ version
+if hash g++ 2>/dev/null; then
+    echo "Compiling g++"
+    g++ -std=c++11 -Ofast sieve-cpp.cpp -o bin/sieve-cpp-gcc
+else
+    echo "No g++ compiler found..."
+fi

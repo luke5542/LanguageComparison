@@ -1,0 +1,28 @@
+#!/bin/bash
+sieveSize=10000000
+
+if [ $# -eq 0 ]
+  then
+    echo "No arguments supplied, using defaults."
+else
+  if [ -z "$1" ]
+    then
+      echo "No argument supplied, using defaults."
+  else
+    sieveSize=$1
+  fi
+fi
+
+set -e
+
+DIRS=`ls -l . | egrep '^d' | awk '{print $8}'`
+
+# "ls -l $MYDIR"      = get a directory listing
+# "| egrep '^d'"           = pipe to egrep and select only the directories
+# "awk '{print $8}'" = pipe the result from egrep to awk and print only the 8th field
+
+# and now loop through the directories:
+for DIR in $DIRS
+do
+echo  ${DIR}
+done

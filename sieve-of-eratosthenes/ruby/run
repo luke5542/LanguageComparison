@@ -1,0 +1,13 @@
+#!/bin/bash
+#Check for existence of Ruby and Ruby sieve version
+if hash ruby 2>/dev/null; then
+    if hash ./sieve_ruby.rb 2>/dev/null; then
+        echo "Running Ruby sieve"
+        time ruby sieve_ruby.rb $@
+        echo " "
+    else
+        echo "Error: No Ruby sieve found..."
+    fi
+else
+    echo "Error: Ruby not found..."
+fi

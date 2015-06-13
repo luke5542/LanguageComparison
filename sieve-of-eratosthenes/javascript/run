@@ -1,0 +1,13 @@
+#!/bin/bash
+#Check for existence of Node and JS sieve version
+if hash node 2>/dev/null; then
+    if hash ./sieve_javascript.js 2>/dev/null; then
+        echo "Running JavaScript sieve"
+        time node --max-old-space-size=8192 sieve_javascript.js $@
+        echo " "
+    else
+        echo "Error: No JavaScript sieve found..."
+    fi
+else
+    echo "Error: Node not found..."
+fi

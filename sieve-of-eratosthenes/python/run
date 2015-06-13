@@ -1,0 +1,39 @@
+#!/bin/bash
+#Check for existence of Pypy and Python sieve version
+if hash pypy 2>/dev/null; then
+    if hash ./sieve_python.py 2>/dev/null; then
+        echo "Running Pypy sieve"
+        time pypy sieve_python.py $@
+        echo " "
+    else
+        echo "Error: No Pypy sieve found..."
+    fi
+else
+  echo "Error: Pypy 3 not found..."
+fi
+
+#Check for existence of Python3 and Python sieve version
+if hash python3 2>/dev/null; then
+    if hash ./sieve_python.py 2>/dev/null; then
+        echo "Running Python 3 sieve"
+        time python3 sieve_python.py $@
+        echo " "
+    else
+        echo "Error: No Python 3 sieve found..."
+    fi
+else
+  echo "Error: Python 3 not found..."
+fi
+
+#Check for existence of Python 2 and Python sieve version
+if hash python 2>/dev/null; then
+    if hash ./sieve_python.py 2>/dev/null; then
+        echo "Running Python 2 sieve"
+        time python sieve_python.py $@
+        echo " "
+    else
+        echo "Error: No Python sieve found..."
+    fi
+else
+    echo "Error: Python 2 not found..."
+fi

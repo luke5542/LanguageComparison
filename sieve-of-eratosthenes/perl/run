@@ -1,0 +1,13 @@
+#!/bin/bash
+#Check for existence of Perl and Perl sieve version
+if hash perl 2>/dev/null; then
+    if hash ./sieve_perl.pl 2>/dev/null; then
+        echo "Running Perl sieve"
+        time perl sieve_perl.pl $@
+        echo " "
+    else
+        echo "Error: No Perl sieve found..."
+    fi
+else
+    echo "Error: Perl not found..."
+fi

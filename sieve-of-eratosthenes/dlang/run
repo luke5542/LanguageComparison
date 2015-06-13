@@ -1,8 +1,8 @@
-
+#!/bin/bash
 #Check for existence of compiled D version before running
-if hash ./bin/dlang 2>/dev/null; then
-    echo "Running D"
-    ./bin/dlang $@
+if hash ./bin/sieve_dlang 2>/dev/null; then
+    echo "Running D sieve"
+    ./bin/sieve_dlang $@
 else
     echo "Error: compiled D version not found..."
 fi

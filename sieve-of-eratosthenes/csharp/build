@@ -1,0 +1,12 @@
+#!/bin/bash
+if [ ! -d "bin" ]; then
+    mkdir bin
+fi
+
+#Check for existence of MCS before compiling
+if hash mcs 2>/dev/null; then
+    echo "Compiling C#"
+    mcs sieve-cs.cs -out:bin/sieve-cs.exe
+else
+    echo "Error: MCS not found..."
+fi

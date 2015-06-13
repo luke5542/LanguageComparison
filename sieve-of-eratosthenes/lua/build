@@ -1,0 +1,12 @@
+#!/bin/bash
+if [ ! -d "bin" ]; then
+    mkdir bin
+fi
+
+#Check for existence of Lua before compiling
+if hash luac 2>/dev/null; then
+    echo "Compiling Lua"
+    luac -s -o bin/sieve_lua.luac sieve_lua.lua
+else
+    echo "Error: Lua not found..."
+fi

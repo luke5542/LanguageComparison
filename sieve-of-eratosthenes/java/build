@@ -1,0 +1,13 @@
+#!/bin/bash
+if [ ! -d "bin" ]; then
+    mkdir bin
+fi
+
+#Check for existence of Java before compiling
+if hash javac 2>/dev/null; then
+    echo "Compiling Java"
+    javac SieveJava.java
+    mv *.class ./bin/
+else
+    echo "Error: Java not found..."
+fi

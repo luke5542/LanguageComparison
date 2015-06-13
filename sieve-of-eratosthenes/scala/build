@@ -1,0 +1,13 @@
+#!/bin/bash
+if [ ! -d "bin" ]; then
+    mkdir bin
+fi
+
+#Check for existence of Scala before compiling
+if hash scalac 2>/dev/null; then
+    echo "Compiling Scala"
+    scalac SieveScala.scala
+    mv *.class ./bin/
+else
+    echo "Error: Scala not found..."
+fi

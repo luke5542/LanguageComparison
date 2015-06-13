@@ -1,0 +1,15 @@
+#!/bin/bash
+if [ ! -d "bin" ]; then
+    echo "Cpp sieve not compiled."
+else
+    cd bin
+    #Check for existence of Scala version before running
+    if hash ./SieveScala.class 2>/dev/null; then
+        echo "Running Scala sieve"
+        time scala SieveScala $@
+        echo " "
+    else
+        echo "Error: No Scala sieve found..."
+    fi
+    cd ..
+fi

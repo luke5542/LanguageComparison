@@ -1,5 +1,5 @@
 {
-    "name": "dlang",
+    "name": "sieve_dlang",
     "description": "A D implementation of the Sieve of Eratosthenes, for finding prime numbers.",
     "authors": ["devin"],
     "configurations":[
