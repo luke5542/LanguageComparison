@@ -9,7 +9,7 @@ This is a collection of programs written in various languages to perform the exa
 + Run the `./compile-run.d` script with the desired tasks
     + Pass `-c` for compilation
     + Pass `-r` for running
-    + Tasks selected with `--<task>` where <task> is the chosen task (i.e. `--sieve`)
+    + Tasks selected with `--<task>` where <task> is the chosen task (i.e. `--sieve`). Run with -h for full list.
     + Example run: `./compile-run -cr --sieve`
 
 #### Generating HTML Output:
