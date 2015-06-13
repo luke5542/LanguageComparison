@@ -20,7 +20,6 @@ int main(int argc, char const** argv)
     primes[0] = primes[1] = 0x00;
 
     unsigned int numPrimes = max - 2;
-
     int sqrtMax = (int) ceil(sqrt(max));
     for (unsigned int i = 0; i < sqrtMax; ++i)
     {
