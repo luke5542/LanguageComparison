@@ -1,4 +1,5 @@
 import subprocess
+import operator
 
 from string import Template
 
@@ -35,12 +36,14 @@ for line in lines:
         time = tokens[2][:-2]
 
     if language is not None and time is not None:
-        data[language] = time
+        data[language] = float(time)
+
+sorted_data = sorted(data.items(), key=operator.itemgetter(1))
 
 languages = []
 times = []
 
-for language, time in data.items():
+for language, time in sorted_data:
     languages.append(language)
     times.append(time)
 
