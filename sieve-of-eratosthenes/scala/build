@@ -5,9 +5,9 @@ fi
 
 #Check for existence of Scala before compiling
 if hash scalac 2>/dev/null; then
-    echo "Compiling Scala"
+    echo "\033[32mCompiling Scala\033[0m"
     scalac SieveScala.scala
     mv *.class ./bin/
 else
-    echo "Error: Scala not found..."
+    echo "\033[31mError: Scala not found...\033[0m"
 fi

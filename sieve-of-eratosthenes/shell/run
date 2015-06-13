@@ -1,11 +1,11 @@
 #!/bin/bash
 #Run bash sieve version
 # if hash ./sieve-sh.sh 2>/dev/null; then
-#     echo "Running Shell sieve"
+#     echo "\033[32mRunning Shell sieve\033[0m"
 #     time ./sieve-sh.sh sieve $@
 #     echo " "
 # else
-#     echo "Error: No Shell sieve found..."
+#     echo "\033[31mError: No Shell sieve found...\033[0m"
 # fi
 # else
-echo "Skipping shell sieve as it takes too long."
+echo "\033[32mSkipping shell sieve as it takes too long.\033[0m"

@@ -5,8 +5,8 @@ fi
 
 #Check for existence of Lua before compiling
 if hash luac 2>/dev/null; then
-    echo "Compiling Lua"
+    echo "\033[32mCompiling Lua\033[0m"
     luac -s -o bin/sieve_lua.luac sieve_lua.lua
 else
-    echo "Error: Lua not found..."
+    echo "\033[31mError: Lua not found...\033[0m"
 fi

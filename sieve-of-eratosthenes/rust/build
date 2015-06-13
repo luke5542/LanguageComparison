@@ -1,14 +1,14 @@
+#!/bin/bash
 #Build the rust version via Cargo
-
 #Check for existence of rustc before compiling
 if hash rustc 2>/dev/null; then
     #Also check for existence of cargo before compiling
     if hash cargo 2>/dev/null; then
-        echo "Compiling Rust"
+        echo "\033[32mCompiling Rust\033[0m"
         cargo build --release
     else
-        echo "Error: Cargo not found..."
+        echo "\033[31mError: Cargo not found...\033[0m"
     fi
 else
-    echo "Error: Rust not found..."
+    echo "\033[31mError: Rust not found...\033[0m"
 fi

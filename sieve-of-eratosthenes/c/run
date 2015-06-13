@@ -1,23 +1,23 @@
 if [ ! -d "bin" ]; then
-    echo "C sieve not compiled."
+    echo "\033[33mC sieve not compiled.\033[0m"
 else
     cd bin
     #Check for existence of gcc C version before running
-    if hash ./sieve-c-gcc 2>/dev/null; then
-        echo "Running GCC sieve"
-        time ./sieve-c-gcc $@
+    if hash sieve_c_gcc 2>/dev/null; then
+        echo "\033[32mRunning GCC sieve\033[0m"
+        time ./sieve_c_gcc $@
         echo ""
     else
-        echo "Error: No gcc sieve found..."
+        echo "\033[31mError: No gcc sieve found...\033[0m"
     fi
 
     #Check for existence of clang C version before running
-    if hash ./sieve-c-clang 2>/dev/null; then
-        echo "Running Clang sieve"
-        time ./sieve-c-clang $@
+    if hash sieve_c_clang 2>/dev/null; then
+        echo "\033[32mRunning Clang sieve\033[0m"
+        time ./sieve_c_clang $@
         echo ""
     else
-        echo "Error: No clang sieve found..."
+        echo "\033[31mError: No clang sieve found...\033[0m"
     fi
     cd ..
 fi

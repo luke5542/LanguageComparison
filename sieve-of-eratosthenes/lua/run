@@ -1,19 +1,19 @@
 #!/bin/bash
 if [ ! -d "bin" ]; then
-    echo "Lua sieve not compiled."
+    echo "\033[33mLua sieve not compiled.\033[0m"
 else
     cd bin
     #Check for existence of Lua and Lua sieve version
     if hash lua 2>/dev/null; then
         if hash ./sieve_lua.luac 2>/dev/null; then
-            echo "Running Luac sieve"
+            echo "\033[32mRunning Luac sieve\033[0m"
             time lua sieve_lua.luac $@
             echo " "
         else
-            echo "Error: No Luac sieve found..."
+            echo "\033[31mError: No Luac sieve found...\033[0m"
         fi
     else
-        echo "Error: Luac not found..."
+        echo "\033[31mError: Luac not found...\033[0m"
     fi
     cd ..
 fi
@@ -21,12 +21,12 @@ fi
 #Check for existence of Lua and Lua sieve version
 if hash lua 2>/dev/null; then
     if hash ./sieve_lua.lua 2>/dev/null; then
-        echo "Running Lua sieve"
+        echo "\033[32mRunning Lua sieve\033[0m"
         time lua sieve_lua.lua $@
         echo " "
     else
-        echo "Error: No Lua sieve found..."
+        echo "\033[31mError: No Lua sieve found...\033[0m"
     fi
 else
-    echo "Error: Lua not found..."
+    echo "\033[31mError: Lua not found...\033[0m"
 fi

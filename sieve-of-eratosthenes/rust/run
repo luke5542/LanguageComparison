@@ -1,19 +1,19 @@
 #!/bin/bash
 if [ ! -d "target" ]; then
-    echo "Rust sieve not compiled."
+    echo "\033[33mRust sieve not compiled.\033[0m"
 else
     cd target
     if [ ! -d "release" ]; then
-        echo "Rust sieve not compiled."
+        echo "\033[33mRust sieve not compiled.\033[0m"
     else
         cd release
         #Check for existence of compiled Rust version before running
         if hash sieve_rust 2>/dev/null; then
-            echo "Running Rust sieve"
+            echo "\033[32mRunning Rust sieve\033[0m"
             time ./sieve_rust $@
             echo " "
         else
-            echo "Error: No Rust sieve found..."
+            echo "\033[31mError: No Rust sieve found...\033[0m"
         fi
         cd ..
     fi

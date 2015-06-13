@@ -1,24 +1,24 @@
 #!/bin/bash
 if [ ! -d "bin" ]; then
-    echo "Cpp sieve not compiled."
+    echo "\033[33mCpp sieve not compiled.\033[0m"
 else
     cd bin
     #Check for existence of clang C++ version before running
-    if hash ./sieve-cpp-clang 2>/dev/null; then
-        echo "Running Clang++ sieve"
-        time ./sieve-cpp-clang $@
+    if hash sieve_cpp_clang 2>/dev/null; then
+        echo "\033[32mRunning Clang++ sieve\033[0m"
+        time ./sieve_cpp_clang $@
         echo ""
     else
-        echo "Error: No clang++ sieve found..."
+        echo "\033[31mError: No clang++ sieve found...\033[0m"
     fi
 
     #Check for existence of gcc C++ version before running
-    if hash ./sieve-cpp-gcc 2>/dev/null; then
-        echo "Running G++ sieve"
-        time ./sieve-cpp-gcc $@
+    if hash sieve_cpp_gcc 2>/dev/null; then
+        echo "\033[32mRunning G++ sieve\033[0m"
+        time ./sieve_cpp_gcc $@
         echo ""
     else
-        echo "Error: No g++ sieve found..."
+        echo "\033[31mError: No g++ sieve found...\033[0m"
     fi
     cd ..
 fi

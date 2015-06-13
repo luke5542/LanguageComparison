@@ -5,9 +5,9 @@ fi
 
 #Check for existence of Java before compiling
 if hash javac 2>/dev/null; then
-    echo "Compiling Java"
+    echo "\033[32mCompiling Java\033[0m"
     javac SieveJava.java
     mv *.class ./bin/
 else
-    echo "Error: Java not found..."
+    echo "\033[31mError: Java not found...\033[0m"
 fi

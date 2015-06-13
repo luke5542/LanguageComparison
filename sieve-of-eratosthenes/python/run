@@ -2,38 +2,38 @@
 #Check for existence of Pypy and Python sieve version
 if hash pypy 2>/dev/null; then
     if hash ./sieve_python.py 2>/dev/null; then
-        echo "Running Pypy sieve"
+        echo "\033[32mRunning Pypy sieve\033[0m"
         time pypy sieve_python.py $@
         echo " "
     else
-        echo "Error: No Pypy sieve found..."
+        echo "\033[31mError: No Pypy sieve found...\033[0m"
     fi
 else
-  echo "Error: Pypy 3 not found..."
+  echo "\033[31mError: Pypy 3 not found...\033[0m"
 fi
 
 #Check for existence of Python3 and Python sieve version
 if hash python3 2>/dev/null; then
     if hash ./sieve_python.py 2>/dev/null; then
-        echo "Running Python 3 sieve"
+        echo "\033[32mRunning Python 3 sieve\033[0m"
         time python3 sieve_python.py $@
         echo " "
     else
-        echo "Error: No Python 3 sieve found..."
+        echo "\033[31mError: No Python 3 sieve found...\033[0m"
     fi
 else
-  echo "Error: Python 3 not found..."
+  echo "\033[31mError: Python 3 not found...\033[0m"
 fi
 
 #Check for existence of Python 2 and Python sieve version
 if hash python 2>/dev/null; then
     if hash ./sieve_python.py 2>/dev/null; then
-        echo "Running Python 2 sieve"
+        echo "\033[32mRunning Python 2 sieve\033[0m"
         time python sieve_python.py $@
         echo " "
     else
-        echo "Error: No Python sieve found..."
+        echo "\033[31mError: No Python sieve found...\033[0m"
     fi
 else
-    echo "Error: Python 2 not found..."
+    echo "\033[31mError: Python 2 not found...\033[0m"
 fi

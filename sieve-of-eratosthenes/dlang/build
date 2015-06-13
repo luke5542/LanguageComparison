@@ -1,13 +1,13 @@
-
+#!/bin/bash
 #Check for existence of dmd before compiling
 if hash dmd 2>/dev/null; then
     #Check for existence of dub before compiling
     if hash dub 2>/dev/null; then
-        echo "Compiling Dub"
+        echo "\033[32mCompiling Dub\033[0m"
         dub build --config=release --build=release-nobounds
     else
-        echo "Error: Dub not found..."
+        echo "\033[31mError: Dub not found...\033[0m"
     fi
 else
-    echo "Error: DMD not found..."
+    echo "\033[31mError: DMD not found...\033[0m"
 fi
