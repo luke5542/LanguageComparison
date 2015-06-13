@@ -3,6 +3,8 @@ if [ ! -d "bin" ]; then
     mkdir bin
 fi
 
+set -e
+
 #Check for existence of clang before compiling C++ version
 if hash clang++ 2>/dev/null; then
     echo "Compiling Clang++"
@@ -57,6 +59,14 @@ if hash javac 2>/dev/null; then
     mv *.class ./bin/
 else
     echo "Error: Java not found..."
+fi
+
+#Check for existence of MCS before compiling
+if hash mcs 2>/dev/null; then
+    echo "Compiling C#"
+    mcs sieve-cs.cs -out:bin/sieve-cs.exe
+else
+    echo "Error: MCS not found..."
 fi
 
 #Check for existence of Scala before compiling

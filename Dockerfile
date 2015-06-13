@@ -33,6 +33,7 @@ RUN \
     python2.7-minimal \
     ruby \
     scala \
+    unzip \
     && \
 
   # Rust is special - so install that seperately
@@ -52,13 +53,18 @@ RUN \
   apt-get autoclean && apt-get clean && \
   rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+# Download the latest build
+# Invalidates the Docker cache if newer version available 
+ADD \
+  https://github.com/luke5542/LanguageComparison/archive/master.zip /root/
+  
+# Compile all the code
 RUN \
-  # Download all the code
   cd /root && \
-  git clone https://github.com/luke5542/LanguageComparison.git && \
-  cd LanguageComparison && \
+  unzip master && \
+  cd LanguageComparison-master && \
   ./compile-all
 
-WORKDIR /root/LanguageComparison
+WORKDIR /root/LanguageComparison-master
 
 CMD ["./run-all"]

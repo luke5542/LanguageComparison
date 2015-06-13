@@ -17,6 +17,8 @@ if [ ! -d "bin" ]; then
   echo "Compiled Sieves have not been compiled, run ./compile-all"
 fi
 
+set -e
+
 #Change directories to the compiled sieves' location
 if [ -d "bin" ]; then
   cd bin
@@ -82,6 +84,15 @@ if [ -d "bin" ]; then
       echo " "
   else
       echo "Error: No Java sieve found..."
+  fi
+
+  #Check for existence of C# version before running
+  if hash ./sieve-cs.exe 2>/dev/null; then
+      echo "Running C# sieve"
+      time mono sieve-cs.exe $sieveSize
+      echo " "
+  else
+      echo "Error: No C# sieve found..."
   fi
 
   #Check for existence of Scala version before running
