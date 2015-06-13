@@ -1,0 +1,8 @@
+
+#Check for existence of compiled rust version before running
+if hash ./target/release/sieve_rust 2>/dev/null; then
+    echo "Running Rust"
+    ./target/release/sieve_rust $@
+else
+    echo "Error: compiled Rust version not found..."
+fi

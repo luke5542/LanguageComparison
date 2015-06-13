@@ -1,0 +1,8 @@
+
+#Check for existence of compiled D version before running
+if hash ./bin/dlang 2>/dev/null; then
+    echo "Running D"
+    ./bin/dlang $@
+else
+    echo "Error: compiled D version not found..."
+fi
