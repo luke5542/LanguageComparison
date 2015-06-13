@@ -68,6 +68,15 @@ if [ -d "bin" ]; then
       echo "Error: No D sieve found..."
   fi
 
+  #Check for existence of C# version before running
+  if hash ./sieve-cs.exe 2>/dev/null; then
+      echo "Running C# sieve"
+      time mono sieve-cs.exe $sieveSize
+      echo " "
+  else
+      echo "Error: No C# sieve found..."
+  fi
+
   #Check for existence of Rust version before running
   if hash ./sieve-rust 2>/dev/null; then
       echo "Running Rust sieve"
@@ -84,15 +93,6 @@ if [ -d "bin" ]; then
       echo " "
   else
       echo "Error: No Java sieve found..."
-  fi
-
-  #Check for existence of C# version before running
-  if hash ./sieve-cs.exe 2>/dev/null; then
-      echo "Running C# sieve"
-      time mono sieve-cs.exe $sieveSize
-      echo " "
-  else
-      echo "Error: No C# sieve found..."
   fi
 
   #Check for existence of Scala version before running
