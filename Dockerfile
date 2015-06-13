@@ -23,6 +23,7 @@ RUN \
   apt-get install -y --no-install-recommends \
     clang-3.5 \
     dmd-bin \
+    dos2unix \
     g++ \
     git \
     lua5.2 \
@@ -53,18 +54,15 @@ RUN \
   apt-get autoclean && apt-get clean && \
   rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# Download the latest build
-# Invalidates the Docker cache if newer version available 
-ADD \
-  https://github.com/luke5542/LanguageComparison/archive/master.zip /root/
+ADD * /root/src/
   
-# Compile all the code
-RUN \
-  cd /root && \
-  unzip master && \
-  cd LanguageComparison-master && \
-  ./compile-all
+WORKDIR /root/src
 
-WORKDIR /root/LanguageComparison-master
+# Compile all the code
+# dos2unix just in case we're building on Windows
+RUN \
+  chmod +x compile-all run-all && \
+  dos2unix compile-all run-all && \
+  ./compile-all
 
 CMD ["./run-all"]
