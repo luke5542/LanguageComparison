@@ -28,8 +28,8 @@ fi
 
 #Check for existence of clang before compiling C version
 if hash clang 2>/dev/null; then
-    echo "Compiling gcc"
-    clang -std=c99 -Ofast sieve-c.c -o bin/sieve-c-clang -lm 
+    echo "Compiling clang"
+    clang -std=c99 -Ofast sieve-c.c -o bin/sieve-c-clang -lm
 else
     echo "No clang compiler found..."
 fi
