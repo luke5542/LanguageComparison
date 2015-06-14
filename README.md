@@ -8,11 +8,7 @@ There are two ways to run the code examples:
 #### Direct (install all the runtimes locally)
 + Make sure you have the compilers/interpreters for these languages installed correctly.
 + Clone this repo (`git clone https://github.com/luke5542/LanguageComparison`).
-+ Run the `./compile-run.d` script with the desired tasks
-    + Pass `-c` for compilation
-    + Pass `-r` for running
-    + Tasks selected with `--<task>` where <task> is the chosen task (i.e. `--sieve`). Run with -h for full list.
-    + Example run: `./compile-run -cr --sieve`
++ Run the `make -C sieve-of-eratosthenes` to run all tests
 
 #### Inside a docker container (no installation required):
 + Ensure you have [docker installed](https://docs.docker.com/installation/)
