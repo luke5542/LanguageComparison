@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.text.DecimalFormat;
 import java.math.RoundingMode;
 
-public class SieveJava
+public class sieve_java
 {
 
     public static void main(String[] args)
