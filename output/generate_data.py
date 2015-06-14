@@ -152,7 +152,7 @@ with open("template_graph.html", 'r') as template_file:
                                     .safe_substitute(multiple_runs=all_runs))
 
         else:
-            template = template.safe_substitute(multiple_runs='')
+            template = Template(template.safe_substitute(multiple_runs=''))
 
         output_file.write(template.safe_substitute(languages=languages,
                           data=times, sieve_size=str(args.sieve)))
