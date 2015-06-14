@@ -23,10 +23,11 @@ RUN \
   apt-get install -y --no-install-recommends \
     clang-3.5 \
     dmd-bin \
-    dos2unix \
+    dub \
     g++ \
     git \
     lua5.2 \
+    make \
     mono-devel \
     nodejs \
     openjdk-7-jdk \
@@ -54,15 +55,27 @@ RUN \
   apt-get autoclean && apt-get clean && \
   rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+<<<<<<< HEAD
 ADD * /root/src/
   
 WORKDIR /root/src
+=======
+COPY . /root/src/
+  
+WORKDIR /root/src/sieve-of-eratosthenes
+>>>>>>> folder_convert_branch
 
 # Compile all the code
 # dos2unix just in case we're building on Windows
 RUN \
+<<<<<<< HEAD
   chmod +x compile-all run-all && \
   dos2unix compile-all run-all && \
   ./compile-all
 
 CMD ["./run-all"]
+=======
+  make buildall
+
+CMD ["./make", "runall"]
+>>>>>>> folder_convert_branch
