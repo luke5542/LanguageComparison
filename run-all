@@ -68,6 +68,15 @@ if [ -d "bin" ]; then
       echo "Error: No D sieve found..."
   fi
 
+  #Check for existence of C# version before running
+  if hash ./sieve-cs.exe 2>/dev/null; then
+      echo "Running C# sieve"
+      time mono sieve-cs.exe $sieveSize
+      echo " "
+  else
+      echo "Error: No C# sieve found..."
+  fi
+
   #Check for existence of Rust version before running
   if hash ./sieve-rust 2>/dev/null; then
       echo "Running Rust sieve"
@@ -84,15 +93,6 @@ if [ -d "bin" ]; then
       echo " "
   else
       echo "Error: No Java sieve found..."
-  fi
-
-  #Check for existence of C# version before running
-  if hash ./sieve-cs.exe 2>/dev/null; then
-      echo "Running C# sieve"
-      time mono sieve-cs.exe $sieveSize
-      echo " "
-  else
-      echo "Error: No C# sieve found..."
   fi
 
   #Check for existence of Scala version before running
@@ -164,14 +164,14 @@ fi
 #Check for existence of Python3 and Python sieve version
 if hash python3 2>/dev/null; then
     if hash ./sieve-py.py 2>/dev/null; then
-        echo "Running Python 3 sieve"
+        echo "Running Python3 sieve"
         time python3 sieve-py.py $sieveSize
         echo " "
     else
-        echo "Error: No Python 3 sieve found..."
+        echo "Error: No Python3 sieve found..."
     fi
 else
-  echo "Error: Python 3 not found..."
+  echo "Error: Python3 not found..."
 fi
 
 #Check for existence of Python 2 and Python sieve version

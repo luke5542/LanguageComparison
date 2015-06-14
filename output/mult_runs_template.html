@@ -1,0 +1,19 @@
+<h2>Run per Result for each Language</h2>
+<canvas id="benchmarks-all" width="1000" height="700"></canvas>
+<script type="text/javascript">
+var data = {
+  labels: $runs,
+  datasets: [
+    $datasets
+  ]
+};
+var canvasAll = document.getElementById("benchmarks-all").getContext("2d");
+var allLineChart = new Chart(canvasAll).Line(data, {
+  scaleShowHorizontalLines: false,
+  scaleShowVerticalLines: false,
+  datasetFill : false,
+  legend: {
+    title: "Time (ms)"
+  }
+});
+</script>
