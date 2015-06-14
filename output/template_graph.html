@@ -1,6 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <style>
+  body {
+    font: 10px sans-serif;
+  }
+
+  p {
+    font: 12px sans-serif;
+  }
+
+  h* {
+    font: sans-serif;
+  }
+
+  .legend rect {
+    fill:white;
+    stroke:black;
+    opacity:0.8;
+  }
+
   .bar {
     fill: steelblue;
   }
@@ -23,14 +41,48 @@
   .x.axis path {
     display: none;
   }
+
+  .line {
+    fill: none;
+    stroke: steelblue;
+    stroke-width: 1.5px;
+  }
+
+  .d3-tip {
+    line-height: 1;
+    font-weight: bold;
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    border-radius: 2px;
+  }
+
+  /* Creates a small triangle extender for the tooltip */
+  .d3-tip:after {
+    box-sizing: border-box;
+    display: inline;
+    font-size: 10px;
+    width: 100%;
+    line-height: 1;
+    color: rgba(0, 0, 0, 0.8);
+    content: "\25BC";
+    position: absolute;
+    text-align: center;
+  }
+
+  /* Style northward tooltips differently */
+  .d3-tip.n:after {
+    margin: -1px 0 0 0;
+    top: 100%;
+    left: 0;
+  }
 </style>
 
 <head>
   <meta charset="utf-8">
   <title>Benchmark Output</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
+  <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
 </head>
 
 <body>
@@ -38,52 +90,60 @@
   <p>Results for a sieve of size <b>n = $sieve_size</b>.</p>
   <h2>Average for each Language</h2>
   <script>
-    var margin = {
+    var formatTime = d3.format(".2f");
+
+    var tip = d3.tip()
+      .attr('class', 'd3-tip')
+      .offset([-10, 0])
+      .html(function(d) {
+        return "<strong>Time:</strong> <span style='color:red'>" + formatTime(d.time) + "</span>";
+      })
+    var avgMargin = {
         top: 20,
         right: 20,
         bottom: 30,
         left: 40
       },
-      width = 960 - margin.left - margin.right,
-      height = 500 - margin.top - margin.bottom;
+      avgWidth = 1000 - avgMargin.left - avgMargin.right,
+      avgHeight = 500 - avgMargin.top - avgMargin.bottom;
 
-    var x = d3.scale.ordinal()
-      .rangeRoundBands([0, width], .1);
+    var avgX = d3.scale.ordinal()
+      .rangeRoundBands([0, avgWidth], .1);
 
-    var y = d3.scale.linear()
-      .range([height, 0]);
+    var avgY = d3.scale.linear()
+      .range([avgHeight, 0]);
 
-    var xAxis = d3.svg.axis()
-      .scale(x)
+    var avgXAxis = d3.svg.axis()
+      .scale(avgX)
       .orient("bottom");
 
-    var yAxis = d3.svg.axis()
-      .scale(y)
+    var avgYAxis = d3.svg.axis()
+      .scale(avgY)
       .orient("left")
       .ticks(10, "ms");
 
-    var svg = d3.select("body").append("svg")
-      .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom)
+    var avgSvg = d3.select("body").append("svg")
+      .attr("width", avgWidth + avgMargin.left + avgMargin.right)
+      .attr("height", avgHeight + avgMargin.top + avgMargin.bottom)
       .append("g")
-      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+      .attr("transform", "translate(" + avgMargin.left + "," + avgMargin.top + ")");
 
     d3.tsv("output/avg.tsv", type, function(error, data) {
-      x.domain(data.map(function(d) {
+      avgX.domain(data.map(function(d) {
         return d.language;
       }));
-      y.domain([0, d3.max(data, function(d) {
+      avgY.domain([0, d3.max(data, function(d) {
         return d.time;
       })]);
 
-      svg.append("g")
+      avgSvg.append("g")
         .attr("class", "x axis")
-        .attr("transform", "translate(0," + height + ")")
-        .call(xAxis);
+        .attr("transform", "translate(0," + avgHeight + ")")
+        .call(avgXAxis);
 
-      svg.append("g")
+      avgSvg.append("g")
         .attr("class", "y axis")
-        .call(yAxis)
+        .call(avgYAxis)
         .append("text")
         .attr("transform", "rotate(-90)")
         .attr("y", 6)
@@ -91,19 +151,21 @@
         .style("text-anchor", "end")
         .text("Average Time");
 
-      svg.selectAll(".bar")
+      avgSvg.selectAll(".bar")
         .data(data)
         .enter().append("rect")
+        .on('mouseover', tip.show)
+        .on('mouseout', tip.hide)
         .attr("class", "bar")
         .attr("x", function(d) {
-          return x(d.language);
+          return avgX(d.language);
         })
-        .attr("width", x.rangeBand())
+        .attr("width", avgX.rangeBand())
         .attr("y", function(d) {
-          return y(d.time);
+          return avgY(d.time);
         })
         .attr("height", function(d) {
-          return height - y(d.time);
+          return avgHeight - avgY(d.time);
         });
 
     });
@@ -112,6 +174,8 @@
       d.time = +d.time;
       return d;
     }
+
+    avgSvg.call(tip);
   </script>
   $multiple_runs
 </body>
