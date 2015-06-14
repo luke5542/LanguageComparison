@@ -28,7 +28,30 @@ colours = [(255, 179, 0),
            (35, 44, 22)]
 
 
-def set_colours(base_colour):
+def _generate_tsv(data_labels, data, name):
+    with open(name + ".tsv", 'w') as data_file:
+        line = ""
+        for label in data_labels:
+            if line is not "":
+                line += '\t'
+            line += label
+
+        line += '\n'
+        data_file.write(line)
+        line = ""
+        for data_set in data:
+            for data_line in data_set:
+                for item in data_line:
+                    if line is not "":
+                        line += '\t'
+                    line += str(item)
+
+                line += '\n'
+                data_file.write(line)
+                line = ""
+
+
+def _set_colours(base_colour):
     r, g, b = base_colour
     fill = "rgba({}, {}, {}, 0.2)".format(r, g, b)
     stroke = "rgba({}, {}, {}, 1)".format(r, g, b)
@@ -39,7 +62,7 @@ def set_colours(base_colour):
     return [fill, stroke, point, pt_stroke_colour, pt_hl_fill, pt_hl_stroke]
 
 
-def dataset_str(run, colours, data):
+def _dataset_str(run, colours, data):
     return r"""{{
   label: "{}",
   fillColor: "{}",
@@ -122,6 +145,9 @@ for language, time in sorted_data:
     languages.append(language)
     times.append(time)
 
+# Generate data for average plot
+_generate_tsv(["language", "time"], [list(sorted_data)], "avg")
+
 with open("template_graph.html", 'r') as template_file:
     template = Template(template_file.read())
 
@@ -139,9 +165,10 @@ with open("template_graph.html", 'r') as template_file:
                     for run in run_data:
                         data.append(run[language])
 
-                    datasets += dataset_str(language,
-                                            set_colours(colour_list[lang_id]),
-                                            data)
+                    datasets += _dataset_str(language,
+                                             _set_colours(
+                                                colour_list[lang_id]),
+                                             data)
 
                 runs = ['Run {0}'.format(run + 1)
                         for run in list(range(0, args.runs))]
@@ -154,7 +181,6 @@ with open("template_graph.html", 'r') as template_file:
         else:
             template = template.safe_substitute(multiple_runs='')
 
-        output_file.write(template.safe_substitute(languages=languages,
-                          data=times, sieve_size=str(args.sieve)))
+        output_file.write(template.safe_substitute(sieve_size=str(args.sieve)))
 
 print("Done!")

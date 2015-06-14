@@ -12,3 +12,4 @@ bin
 # Generated HTML #
 ##################
 benchmark.html
+*.tsv
