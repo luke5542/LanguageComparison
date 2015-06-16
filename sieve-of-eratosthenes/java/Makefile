@@ -1,4 +1,8 @@
-build: bin/sieve_java.class
+include ../Makefile.mk
+
+EXECUTABLES = javac java
+
+build: $(dependenciesInstalled) bin/sieve_java.class
 
 run: bin/sieve_java.class
 	@echo "Running java sieve"

@@ -1,4 +1,8 @@
-run: bin/sieve_c_gcc bin/sieve_c_clang
+include ../Makefile.mk
+
+EXECUTABLES = gcc clang
+
+run: $(dependenciesInstalled) bin/sieve_c_gcc bin/sieve_c_clang
 	@echo "Running clang sieve"
 	bin/sieve_c_clang ${SIEVESIZE}
 
@@ -16,5 +20,5 @@ bin/sieve_c_clang: bin
 bin:
 	mkdir bin
 
-clean: 
+clean:
 	@rm -rf bin/

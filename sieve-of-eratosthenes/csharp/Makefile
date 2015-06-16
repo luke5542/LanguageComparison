@@ -1,4 +1,8 @@
-build: bin/sieve_csharp.exe
+include ../Makefile.mk
+
+EXECUTABLES = mcs mono
+
+build: $(dependenciesInstalled) bin/sieve_csharp.exe
 
 run: bin/sieve_csharp.exe
 	@echo "Running csharp sieve"

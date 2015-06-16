@@ -1,4 +1,8 @@
-build: bin/sieve_lua.luac
+include ../Makefile.mk
+
+EXECUTABLES = lua luac
+
+build: $(dependenciesInstalled) bin/sieve_lua.luac
 
 run: bin/sieve_lua.luac
 	@echo "Running lua sieve"

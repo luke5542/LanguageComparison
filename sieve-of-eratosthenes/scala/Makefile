@@ -1,4 +1,8 @@
-build: bin/sieve_scala.class
+include ../Makefile.mk
+
+EXECUTABLES = scala scalac
+
+build: $(dependenciesInstalled) bin/sieve_scala.class
 
 run: bin/sieve_scala.class
 	@echo "Running scala sieve"

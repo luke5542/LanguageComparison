@@ -1,6 +1,10 @@
-build: 
+include ../Makefile.mk
 
-run: sieve_perl.pl
+EXECUTABLES = perl
+
+build: $(dependenciesInstalled)
+
+run: build sieve_perl.pl
 	@echo "Running perl sieve"
 	perl sieve_perl.pl ${SIEVESIZE}
 

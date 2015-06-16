@@ -1,4 +1,8 @@
-build: target/release/sieve_rust
+include ../Makefile.mk
+
+EXECUTABLES = rust cargo
+
+build: $(dependenciesInstalled) target/release/sieve_rust
 
 run: target/release/sieve_rust
 	@echo "Running rust sieve"

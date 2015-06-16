@@ -1,6 +1,10 @@
-build: 
+include ../Makefile.mk
 
-run: sieve_python.py
+EXECUTABLES = python2 python3 pypy
+
+build: $(dependenciesInstalled)
+
+run: build sieve_python.py
 	@echo "Running python2 sieve"
 	python2 sieve_python.py ${SIEVESIZE}
 

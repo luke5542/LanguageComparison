@@ -1,4 +1,8 @@
-build: bin/sieve_dlang
+include ../Makefile.mk
+
+EXECUTABLES = dub dmd
+
+build: $(dependenciesInstalled) bin/sieve_dlang
 
 run: bin/sieve_dlang
 	@echo "Running dlang sieve"
