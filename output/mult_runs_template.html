@@ -1,19 +1,122 @@
 <h2>Run per Result for each Language</h2>
-<canvas id="benchmarks-all" width="1000" height="700"></canvas>
-<script type="text/javascript">
-var data = {
-  labels: $runs,
-  datasets: [
-    $datasets
-  ]
-};
-var canvasAll = document.getElementById("benchmarks-all").getContext("2d");
-var allLineChart = new Chart(canvasAll).Line(data, {
-  scaleShowHorizontalLines: false,
-  scaleShowVerticalLines: false,
-  datasetFill : false,
-  legend: {
-    title: "Time (ms)"
-  }
-});
+<script>
+  var allMargin = {
+      top: 20,
+      right: 80,
+      bottom: 30,
+      left: 50
+    },
+    allWidth = 1000 - allMargin.left - allMargin.right,
+    allHeight = 500 - allMargin.top - allMargin.bottom;
+
+  var allX = d3.scale.ordinal()
+    .rangePoints([0, allWidth], 0)
+
+  var allY = d3.scale.linear()
+    .range([allHeight, 0]);
+
+  var color = d3.scale.category20();
+
+  var allXAxis = d3.svg.axis()
+    .scale(allX)
+    .orient("bottom");
+
+  var allYAxis = d3.svg.axis()
+    .scale(allY)
+    .orient("left");
+
+  var allLine = d3.svg.line()
+    .interpolate("basis")
+    .x(function(d) {
+      return allX(d.run);
+    })
+    .y(function(d) {
+      return allY(d.time_val);
+    });
+
+  var allSvg = d3.select("body").append("svg")
+    .attr("width", allWidth + allMargin.left + allMargin.right)
+    .attr("height", allHeight + allMargin.top + allMargin.bottom)
+    .append("g")
+    .attr("transform", "translate(" + allMargin.left + "," + allMargin.top + ")");
+
+  d3.tsv("output/all_runs.tsv", function(error, data) {
+    if (error) throw error;
+
+    color.domain(d3.keys(data[0]).filter(function(key) {
+      return key !== "run";
+    }));
+
+    var languages = color.domain().map(function(name) {
+      return {
+        name: name,
+        values: data.map(function(d) {
+          return {
+            run: d.run,
+            time_val: parseFloat(d[name])
+          };
+        })
+      };
+    });
+
+    allX.domain(data.map(function(d) { return d.run; }));
+
+    allY.domain([
+      d3.min(languages, function(c) {
+        return d3.min(c.values, function(v) {
+          return v.time_val;
+        });
+      }),
+      d3.max(languages, function(c) {
+        return d3.max(c.values, function(v) {
+          return v.time_val;
+        });
+      })
+    ]);
+
+    allSvg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + allHeight + ")")
+      .call(allXAxis);
+
+    allSvg.append("g")
+      .attr("class", "y axis")
+      .call(allYAxis)
+      .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("Time (ms)");
+
+    var language = allSvg.selectAll(".language")
+      .data(languages)
+      .enter().append("g")
+      .attr("class", "language");
+
+    language.append("path")
+      .attr("class", "line")
+      .attr("d", function(d) {
+        return allLine(d.values);
+      })
+      .style("stroke", function(d) {
+        return color(d.name);
+      });
+
+    language.append("text")
+      .datum(function(d) {
+        return {
+          name: d.name,
+          value: d.values[d.values.length - 1]
+        };
+      })
+      .attr("transform", function(d) {
+        return "translate(" + allX(d.value.run) + "," + allY(d.value.time_val) + ")";
+      })
+      .attr("x", 3)
+      .attr("dy", ".35em")
+      .text(function(d) {
+        return d.name;
+      });
+  });
 </script>
