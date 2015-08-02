@@ -1,33 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>Benchmark Output</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
-  </head>
-  <body>
-    <h1>Benchmark - Sieve of Erathosnes</h1>
-    <canvas id="benchmarks" width="1000" height="700"></canvas>
-    <script type="text/javascript">
-      var data = {
-        labels: $languages,
-        datasets: [
-          {
-            label: "Benchmark Run 1",
-            fillColor: "rgba(220,220,220,0.5)",
-            strokeColor: "rgba(220,220,220,0.8)",
-            highlightFill: "rgba(220,220,220,0.75)",
-            highlightStroke: "rgba(220,220,220,1)",
-            data: $data
-          },
-        ]
-      };
-      var ctx = document.getElementById("benchmarks").getContext("2d");
-      var myBarChart = new Chart(ctx).Bar(data, {
-        scaleShowHorizontalLines: false,
-        scaleShowVerticalLines: false,
-        legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].fillColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>"
-      });
-    </script>
-  </body>
+<style>
+  .bar {
+    fill: steelblue;
+  }
+
+  .bar:hover {
+    fill: brown;
+  }
+
+  .axis {
+    font: 10px sans-serif;
+  }
+
+  .axis path,
+  .axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+  }
+
+  .x.axis path {
+    display: none;
+  }
+</style>
+
+<head>
+  <meta charset="utf-8">
+  <title>Benchmark Output</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
+</head>
+
+<body>
+  <h1>Benchmark - Sieve of Erathosnes</h1>
+  <p>Results for a sieve of size <b>n = $sieve_size</b>.</p>
+  <h2>Average for each Language</h2>
+  <script>
+    var margin = {
+        top: 20,
+        right: 20,
+        bottom: 30,
+        left: 40
+      },
+      width = 960 - margin.left - margin.right,
+      height = 500 - margin.top - margin.bottom;
+
+    var x = d3.scale.ordinal()
+      .rangeRoundBands([0, width], .1);
+
+    var y = d3.scale.linear()
+      .range([height, 0]);
+
+    var xAxis = d3.svg.axis()
+      .scale(x)
+      .orient("bottom");
+
+    var yAxis = d3.svg.axis()
+      .scale(y)
+      .orient("left")
+      .ticks(10, "ms");
+
+    var svg = d3.select("body").append("svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    d3.tsv("output/avg.tsv", type, function(error, data) {
+      x.domain(data.map(function(d) {
+        return d.language;
+      }));
+      y.domain([0, d3.max(data, function(d) {
+        return d.time;
+      })]);
+
+      svg.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(xAxis);
+
+      svg.append("g")
+        .attr("class", "y axis")
+        .call(yAxis)
+        .append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 6)
+        .attr("dy", ".71em")
+        .style("text-anchor", "end")
+        .text("Average Time");
+
+      svg.selectAll(".bar")
+        .data(data)
+        .enter().append("rect")
+        .attr("class", "bar")
+        .attr("x", function(d) {
+          return x(d.language);
+        })
+        .attr("width", x.rangeBand())
+        .attr("y", function(d) {
+          return y(d.time);
+        })
+        .attr("height", function(d) {
+          return height - y(d.time);
+        });
+
+    });
+
+    function type(d) {
+      d.time = +d.time;
+      return d;
+    }
+  </script>
+  $multiple_runs
+</body>
+
 </html>
