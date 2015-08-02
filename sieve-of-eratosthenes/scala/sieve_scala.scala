@@ -1,7 +1,6 @@
-import Math._
 import Array._
 
-object SieveScala {
+object sieve_scala {
   def main(args: Array[String]) {
     var max = Integer.parseInt(args(0));
 
@@ -11,7 +10,7 @@ object SieveScala {
 
     //Faze out all invalid primes.
     var foundPrimes = max - 2;
-    var sqrtMax = Math.ceil(Math.sqrt(max)).toInt;
+    var sqrtMax = math.ceil(math.sqrt(max)).toInt;
     for(i <- 0 to sqrtMax-1)
     {
         if(primes(i))
