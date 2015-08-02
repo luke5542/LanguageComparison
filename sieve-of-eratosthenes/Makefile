@@ -1,6 +1,4 @@
-test = date
-
-DIRS := ${shell find * -maxdepth 0 -type d -print}
+DIRS := ${shell ./getBuildableSolutions.sh}
 SIEVESIZE := 10000000
 
 buildall:
