@@ -26,6 +26,7 @@ RUN \
     dub \
     g++ \
     git \
+    golang \
     lua5.2 \
     make \
     mono-devel \
@@ -56,7 +57,7 @@ RUN \
   rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 COPY . /root/src/
-  
+
 WORKDIR /root/src/sieve-of-eratosthenes
 
 # Compile all the code

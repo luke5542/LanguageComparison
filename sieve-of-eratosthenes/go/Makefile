@@ -2,17 +2,19 @@ include ../Makefile.mk
 
 EXECUTABLES = go
 
-build: $(dependenciesInstalled) bin/SieveGo
+GOPATH := $(shell pwd)
 
-run: bin/SieveGo
+build: $(dependenciesInstalled) bin/LanguageComparison
+
+run: bin/LanguageComparison
 	@echo "Running golang"
-	bin/SieveGo ${SIEVESIZE}
+	bin/LanguageComparison ${SIEVESIZE}
 
-bin/SieveGo: bin
-	go build -o bin/SieveGo
-
-bin:
-	mkdir bin
+bin/LanguageComparison:
+	cd src
+	go get github.com/luke5542/LanguageComparison/
 
 clean:
-	@rm -rf bin/
+	@rm -rf bin/*
+	@rm -rf pkg/*
+	@rm -rf src/github.com/fatih
