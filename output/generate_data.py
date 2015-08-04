@@ -65,7 +65,7 @@ if args.build:
 
 benchmarks = ""
 for example_dir in example_dirs:
-    print("Running ", example_dir, " examples...")
+    print("Running", example_dir, "examples...")
     example_name = example_dir.split('-')[0]
 
     data = []
@@ -119,7 +119,7 @@ for example_dir in example_dirs:
 
     # Generate data for average plot
     _generate_tsv(["language", "time"],
-                  list(sorted_data), example_name + "Avg")
+                  list(sorted_data), example_name + "_avg")
 
     with open("template_graph.html", 'r') as template_file:
         template = Template(template_file.read())
@@ -130,7 +130,9 @@ for example_dir in example_dirs:
             all_data = []
 
             with open("mult_runs_template.html", 'r') as runs_template_file:
-                all_runs = runs_template_file.read()
+                all_runs_template = Template(runs_template_file.read())
+                all_runs = all_runs_template \
+                    .safe_substitute(example=example_name)
                 datasets = ""
 
                 for num, run in enumerate(data):
@@ -143,7 +145,7 @@ for example_dir in example_dirs:
                 template = Template(template
                                     .safe_substitute(multiple_runs=all_runs))
 
-            _generate_tsv(labels, all_data, "all_runs")
+            _generate_tsv(labels, all_data, example_name + "_all_runs")
         else:
             template = Template(template.safe_substitute(multiple_runs=''))
 

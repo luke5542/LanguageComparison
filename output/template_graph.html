@@ -31,7 +31,7 @@
     .append("g")
     .attr("transform", "translate(" + ${example}AvgMargin.left + "," + ${example}AvgMargin.top + ")");
 
-  d3.tsv("output/${example}Avg.tsv", type, function(error, data) {
+  d3.tsv("output/${example}_avg.tsv", type, function(error, data) {
     ${example}AvgX.domain(data.map(function(d) {
       return d.language;
     }));
