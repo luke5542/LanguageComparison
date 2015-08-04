@@ -50,5 +50,5 @@ fn main() {
     let dur = Duration::num_milliseconds(&(start.to(PreciseTime::now())));
 
     println!("Number of primes: {}", prime_count);
-    println!("Execution time: {}", dur);
+    println!("Execution time: {}ms", dur);
 }
