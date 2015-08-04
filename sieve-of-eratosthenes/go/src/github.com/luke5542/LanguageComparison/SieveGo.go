@@ -40,5 +40,5 @@ func findPrimes(max int) {
 	s.Stop()
 
 	fmt.Printf("Number of primes found: %v\n", foundPrimes)
-	fmt.Printf("Execution time: %vms\n", s.ElapsedTime().Seconds() * 1000)
+	fmt.Printf("Execution time: %v\n", s.ElapsedTime())
 }

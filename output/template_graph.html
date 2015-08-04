@@ -1,183 +1,78 @@
-<!DOCTYPE html>
-<html lang="en">
-<style>
-  body {
-    font: 10px sans-serif;
-  }
+<h1>Benchmark - $example</h1>
+<h2>Average for each Language</h2>
+<script>
+  var ${example}AvgMargin = {
+      top: 20,
+      right: 20,
+      bottom: 30,
+      left: 40
+    },
+    ${example}AvgWidth = 1000 - ${example}AvgMargin.left - ${example}AvgMargin.right,
+    ${example}AvgHeight = 500 - ${example}AvgMargin.top - ${example}AvgMargin.bottom;
 
-  p {
-    font: 12px sans-serif;
-  }
+  var ${example}AvgX = d3.scale.ordinal()
+    .rangeRoundBands([0, ${example}AvgWidth], .1);
 
-  h* {
-    font: sans-serif;
-  }
+  var ${example}AvgY = d3.scale.linear()
+    .range([${example}AvgHeight, 0]);
 
-  .legend rect {
-    fill:white;
-    stroke:black;
-    opacity:0.8;
-  }
+  var ${example}AvgXAxis = d3.svg.axis()
+    .scale(${example}AvgX)
+    .orient("bottom");
 
-  .bar {
-    fill: steelblue;
-  }
+  var ${example}AvgYAxis = d3.svg.axis()
+    .scale(${example}AvgY)
+    .orient("left")
+    .ticks(10, "ms");
 
-  .bar:hover {
-    fill: brown;
-  }
+  var ${example}AvgSvg = d3.select("body").append("svg")
+    .attr("width", ${example}AvgWidth + ${example}AvgMargin.left + ${example}AvgMargin.right)
+    .attr("height", ${example}AvgHeight + ${example}AvgMargin.top + ${example}AvgMargin.bottom)
+    .append("g")
+    .attr("transform", "translate(" + ${example}AvgMargin.left + "," + ${example}AvgMargin.top + ")");
 
-  .axis {
-    font: 10px sans-serif;
-  }
+  d3.tsv("output/${example}Avg.tsv", type, function(error, data) {
+    ${example}AvgX.domain(data.map(function(d) {
+      return d.language;
+    }));
+    ${example}AvgY.domain([0, d3.max(data, function(d) {
+      return d.time;
+    })]);
 
-  .axis path,
-  .axis line {
-    fill: none;
-    stroke: #000;
-    shape-rendering: crispEdges;
-  }
+    ${example}AvgSvg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + ${example}AvgHeight + ")")
+      .call(${example}AvgXAxis);
 
-  .x.axis path {
-    display: none;
-  }
+    ${example}AvgSvg.append("g")
+      .attr("class", "y axis")
+      .call(${example}AvgYAxis)
+      .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("Average Time (ms)");
 
-  .line {
-    fill: none;
-    stroke: steelblue;
-    stroke-width: 1.5px;
-  }
-
-  .d3-tip {
-    line-height: 1;
-    font-weight: bold;
-    padding: 12px;
-    background: rgba(0, 0, 0, 0.8);
-    color: #fff;
-    border-radius: 2px;
-  }
-
-  /* Creates a small triangle extender for the tooltip */
-  .d3-tip:after {
-    box-sizing: border-box;
-    display: inline;
-    font-size: 10px;
-    width: 100%;
-    line-height: 1;
-    color: rgba(0, 0, 0, 0.8);
-    content: "\25BC";
-    position: absolute;
-    text-align: center;
-  }
-
-  /* Style northward tooltips differently */
-  .d3-tip.n:after {
-    margin: -1px 0 0 0;
-    top: 100%;
-    left: 0;
-  }
-</style>
-
-<head>
-  <meta charset="utf-8">
-  <title>Benchmark Output</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
-  <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
-</head>
-
-<body>
-  <h1>Benchmark - Sieve of Erathosnes</h1>
-  <p>Results for a sieve of size <b>n = $sieve_size</b>.</p>
-  <h2>Average for each Language</h2>
-  <script>
-    var formatTime = d3.format(".2f");
-
-    var tip = d3.tip()
-      .attr('class', 'd3-tip')
-      .offset([-10, 0])
-      .html(function(d) {
-        return "<strong>Time:</strong> <span style='color:red'>" + formatTime(d.time) + "</span>";
+    ${example}AvgSvg.selectAll(".bar")
+      .data(data)
+      .enter().append("rect")
+      .on('mouseover', tip.show)
+      .on('mouseout', tip.hide)
+      .attr("class", "bar")
+      .attr("x", function(d) {
+        return ${example}AvgX(d.language);
       })
-    var avgMargin = {
-        top: 20,
-        right: 20,
-        bottom: 30,
-        left: 40
-      },
-      avgWidth = 1000 - avgMargin.left - avgMargin.right,
-      avgHeight = 500 - avgMargin.top - avgMargin.bottom;
+      .attr("width", ${example}AvgX.rangeBand())
+      .attr("y", function(d) {
+        return ${example}AvgY(d.time);
+      })
+      .attr("height", function(d) {
+        return ${example}AvgHeight - ${example}AvgY(d.time);
+      });
 
-    var avgX = d3.scale.ordinal()
-      .rangeRoundBands([0, avgWidth], .1);
+  });
 
-    var avgY = d3.scale.linear()
-      .range([avgHeight, 0]);
-
-    var avgXAxis = d3.svg.axis()
-      .scale(avgX)
-      .orient("bottom");
-
-    var avgYAxis = d3.svg.axis()
-      .scale(avgY)
-      .orient("left")
-      .ticks(10, "ms");
-
-    var avgSvg = d3.select("body").append("svg")
-      .attr("width", avgWidth + avgMargin.left + avgMargin.right)
-      .attr("height", avgHeight + avgMargin.top + avgMargin.bottom)
-      .append("g")
-      .attr("transform", "translate(" + avgMargin.left + "," + avgMargin.top + ")");
-
-    d3.tsv("output/avg.tsv", type, function(error, data) {
-      avgX.domain(data.map(function(d) {
-        return d.language;
-      }));
-      avgY.domain([0, d3.max(data, function(d) {
-        return d.time;
-      })]);
-
-      avgSvg.append("g")
-        .attr("class", "x axis")
-        .attr("transform", "translate(0," + avgHeight + ")")
-        .call(avgXAxis);
-
-      avgSvg.append("g")
-        .attr("class", "y axis")
-        .call(avgYAxis)
-        .append("text")
-        .attr("transform", "rotate(-90)")
-        .attr("y", 6)
-        .attr("dy", ".71em")
-        .style("text-anchor", "end")
-        .text("Average Time");
-
-      avgSvg.selectAll(".bar")
-        .data(data)
-        .enter().append("rect")
-        .on('mouseover', tip.show)
-        .on('mouseout', tip.hide)
-        .attr("class", "bar")
-        .attr("x", function(d) {
-          return avgX(d.language);
-        })
-        .attr("width", avgX.rangeBand())
-        .attr("y", function(d) {
-          return avgY(d.time);
-        })
-        .attr("height", function(d) {
-          return avgHeight - avgY(d.time);
-        });
-
-    });
-
-    function type(d) {
-      d.time = +d.time;
-      return d;
-    }
-
-    avgSvg.call(tip);
-  </script>
-  $multiple_runs
-</body>
-
-</html>
+  ${example}AvgSvg.call(tip);
+</script>
+$multiple_runs
