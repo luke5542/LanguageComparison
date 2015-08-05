@@ -8,8 +8,8 @@ There are two ways to run the code examples:
 #### Direct (install all the runtimes locally)
 + Make sure you have the compilers/interpreters for these languages installed correctly.
 + Clone this repo (`git clone https://github.com/luke5542/LanguageComparison`).
-+ Run the `./compile-all` script.
-+ Run the `./run-all` script.
++ Change directories to the example you want to run (e.g. `cd sieve-of-eratosthenes`)
++ Run the `make runall` to run all tests in that directory
 
 #### Inside a docker container (no installation required):
 + Ensure you have [docker installed](https://docs.docker.com/installation/)

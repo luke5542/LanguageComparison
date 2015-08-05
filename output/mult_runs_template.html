@@ -1,53 +1,53 @@
 <h2>Run per Result for each Language</h2>
 <script>
-  var allMargin = {
+  var ${example}AllMargin = {
       top: 20,
       right: 80,
       bottom: 30,
       left: 50
     },
-    allWidth = 1000 - allMargin.left - allMargin.right,
-    allHeight = 500 - allMargin.top - allMargin.bottom;
+    ${example}AllWidth = 1000 - ${example}AllMargin.left - ${example}AllMargin.right,
+    ${example}AllHeight = 500 - ${example}AllMargin.top - ${example}AllMargin.bottom;
 
-  var allX = d3.scale.ordinal()
-    .rangePoints([0, allWidth], 0)
+  var ${example}AllX = d3.scale.ordinal()
+    .rangePoints([0, ${example}AllWidth], 0)
 
-  var allY = d3.scale.linear()
-    .range([allHeight, 0]);
+  var ${example}AllY = d3.scale.linear()
+    .range([${example}AllHeight, 0]);
 
-  var color = d3.scale.category20();
+  var ${example}Color = d3.scale.category20();
 
-  var allXAxis = d3.svg.axis()
-    .scale(allX)
+  var ${example}AllXAxis = d3.svg.axis()
+    .scale(${example}AllX)
     .orient("bottom");
 
-  var allYAxis = d3.svg.axis()
-    .scale(allY)
+  var ${example}AllYAxis = d3.svg.axis()
+    .scale(${example}AllY)
     .orient("left");
 
-  var allLine = d3.svg.line()
+  var ${example}AllLine = d3.svg.line()
     .interpolate("basis")
     .x(function(d) {
-      return allX(d.run);
+      return ${example}AllX(d.run);
     })
     .y(function(d) {
-      return allY(d.time_val);
+      return ${example}AllY(d.time_val);
     });
 
-  var allSvg = d3.select("body").append("svg")
-    .attr("width", allWidth + allMargin.left + allMargin.right)
-    .attr("height", allHeight + allMargin.top + allMargin.bottom)
+  var ${example}AllSvg = d3.select("body").append("svg")
+    .attr("width", ${example}AllWidth + ${example}AllMargin.left + ${example}AllMargin.right)
+    .attr("height", ${example}AllHeight + ${example}AllMargin.top + ${example}AllMargin.bottom)
     .append("g")
-    .attr("transform", "translate(" + allMargin.left + "," + allMargin.top + ")");
+    .attr("transform", "translate(" + ${example}AllMargin.left + "," + ${example}AllMargin.top + ")");
 
-  d3.tsv("output/all_runs.tsv", function(error, data) {
+  d3.tsv("output/${example}_all_runs.tsv", function(error, data) {
     if (error) throw error;
 
-    color.domain(d3.keys(data[0]).filter(function(key) {
+    ${example}Color.domain(d3.keys(data[0]).filter(function(key) {
       return key !== "run";
     }));
 
-    var languages = color.domain().map(function(name) {
+    var languages = ${example}Color.domain().map(function(name) {
       return {
         name: name,
         values: data.map(function(d) {
@@ -59,9 +59,9 @@
       };
     });
 
-    allX.domain(data.map(function(d) { return d.run; }));
+    ${example}AllX.domain(data.map(function(d) { return d.run; }));
 
-    allY.domain([
+    ${example}AllY.domain([
       d3.min(languages, function(c) {
         return d3.min(c.values, function(v) {
           return v.time_val;
@@ -74,14 +74,14 @@
       })
     ]);
 
-    allSvg.append("g")
+    ${example}AllSvg.append("g")
       .attr("class", "x axis")
-      .attr("transform", "translate(0," + allHeight + ")")
-      .call(allXAxis);
+      .attr("transform", "translate(0," + ${example}AllHeight + ")")
+      .call(${example}AllXAxis);
 
-    allSvg.append("g")
+    ${example}AllSvg.append("g")
       .attr("class", "y axis")
-      .call(allYAxis)
+      .call(${example}AllYAxis)
       .append("text")
       .attr("transform", "rotate(-90)")
       .attr("y", 6)
@@ -89,7 +89,7 @@
       .style("text-anchor", "end")
       .text("Time (ms)");
 
-    var language = allSvg.selectAll(".language")
+    var language = ${example}AllSvg.selectAll(".language")
       .data(languages)
       .enter().append("g")
       .attr("class", "language");
@@ -97,10 +97,10 @@
     language.append("path")
       .attr("class", "line")
       .attr("d", function(d) {
-        return allLine(d.values);
+        return ${example}AllLine(d.values);
       })
       .style("stroke", function(d) {
-        return color(d.name);
+        return ${example}Color(d.name);
       });
 
     language.append("text")
@@ -111,7 +111,7 @@
         };
       })
       .attr("transform", function(d) {
-        return "translate(" + allX(d.value.run) + "," + allY(d.value.time_val) + ")";
+        return "translate(" + ${example}AllX(d.value.run) + "," + ${example}AllY(d.value.time_val) + ")";
       })
       .attr("x", 3)
       .attr("dy", ".35em")

@@ -23,9 +23,12 @@ RUN \
   apt-get install -y --no-install-recommends \
     clang-3.5 \
     dmd-bin \
+    dub \
     g++ \
     git \
+    golang \
     lua5.2 \
+    make \
     mono-devel \
     nodejs \
     openjdk-7-jdk \
@@ -53,18 +56,13 @@ RUN \
   apt-get autoclean && apt-get clean && \
   rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# Download the latest build
-# Invalidates the Docker cache if newer version available 
-ADD \
-  https://github.com/luke5542/LanguageComparison/archive/master.zip /root/
-  
+COPY . /root/src/
+
+WORKDIR /root/src/sieve-of-eratosthenes
+
 # Compile all the code
+# dos2unix just in case we're building on Windows
 RUN \
-  cd /root && \
-  unzip master && \
-  cd LanguageComparison-master && \
-  ./compile-all
+  make buildall
 
-WORKDIR /root/LanguageComparison-master
-
-CMD ["./run-all"]
+CMD ["make", "runall"]

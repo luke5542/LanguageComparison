@@ -1,6 +1,18 @@
+"""
+Generates benchmark plots for all examples.
+
+Script generates plots and places in HTML file located at:
+`../benchmark.html`
+
+Can be run with the following flags:
+`-b` or `--build` - this builds all source code via the Makefiles
+`-s` or `--sieve` - specifies the size of the sieve for Sieve of Eratosthenes
+`-r` or `--runs` - specifies number of times to run each example
+"""
 import subprocess
 import operator
 import argparse
+import os
 
 from string import Template
 
@@ -27,86 +39,100 @@ def _generate_tsv(data_labels, data, name):
             line = ""
 
 
+def _build(directory):
+    os.chdir(os.path.join("./..", directory))
+    subprocess.call(["make", "cleanall"])
+    subprocess.call(["make", "buildall"])
+
+
 parser = argparse.ArgumentParser()
-parser.add_argument("-n", "--sieve", action="store",
+parser.add_argument("-s", "--sieve", action="store",
                     default=10000000, type=int)
 parser.add_argument("-r", "--runs", action="store",
                     default=1, type=int)
-parser.add_argument("-c", "--compile", action="store_true")
+parser.add_argument("-b", "--build", action="store_true")
 
 args = parser.parse_args()
 
-if args.compile:
-    print("Compiling examples...")
+example_dirs = [example_dir for example_dir in os.listdir("./..")
+                if os.path.isdir(os.path.join("./..", example_dir))
+                and example_dir not in [".git", "bin", "output"]]
 
-    subprocess.call("./compile-all", cwd="..", stdout=subprocess.DEVNULL,
-                    stderr=subprocess.DEVNULL)
+if args.build:
+    print("Building examples...")
+    for directory in example_dirs:
+        _build(directory)
 
-print("Running examples...")
+benchmarks = ""
+for example_dir in example_dirs:
+    print("Running", example_dir, "examples...")
+    example_name = example_dir.split('-')[0]
 
-data = []
-avg_data = {}
+    data = []
+    avg_data = {}
 
-for run in range(0, args.runs):
+    for run in range(0, args.runs):
 
-    if args.runs > 1:
-        print("Run no. {}...".format(run + 1))
+        if args.runs > 1:
+            print("Run no. {}...".format(run + 1))
+        os.chdir(os.path.join("./..", example_dir))
+        output = subprocess \
+            .check_output(["make", "SIEVESIZE=\""+str(args.sieve)+"\"",
+                           "runall"],
+                          stderr=subprocess.DEVNULL) \
+            .decode(encoding='UTF-8')
 
-    output = subprocess.check_output(["./run-all", str(args.sieve)],
-                                     cwd="..",
-                                     stderr=subprocess.DEVNULL) \
-        .decode(encoding='UTF-8')
+        print("Extracting results...")
 
-    print("Extracting results...")
+        lines = output.split('\n')
 
-    lines = output.split('\n')
+        run_data = {}
+        language = None
+        time = None
 
-    run_data = {}
-    language = None
-    time = None
+        for line in lines:
+            if "Running" in line:
+                tokens = line.split(' ')
+                language = tokens[1]
+                time = None
 
-    for line in lines:
-        if "Running" in line:
-            tokens = line.split(' ')
-            language = tokens[1]
-            time = None
+            if "Execution" in line:
+                tokens = line.split(' ')
+                time = tokens[2][:-2]
 
-        if "Execution" in line:
-            tokens = line.split(' ')
-            time = tokens[2][:-2]
+            if language is not None and time is not None:
+                run_data[language] = float(time)
 
-        if language is not None and time is not None:
-            run_data[language] = float(time)
+        data.append(run_data)
+        for language, time in run_data.items():
+            avg_data[language] = avg_data.get(language, 0) + (time / args.runs)
 
-    data.append(run_data)
-    for language, time in run_data.items():
-        avg_data[language] = avg_data.get(language, 0) + (time / args.runs)
+    os.chdir(os.path.join("../output"))
+    # Create plot for average times
+    avg_data.update((key, value/args.runs) for key, value in avg_data.items())
+    sorted_data = sorted(avg_data.items(), key=operator.itemgetter(1))
 
-print("Generating HTML...")
+    languages = []
 
-# Create plot for average times
-avg_data.update((key, value/args.runs) for key, value in avg_data.items())
-sorted_data = sorted(avg_data.items(), key=operator.itemgetter(1))
+    for language, time in sorted_data:
+        languages.append(language)
 
-languages = []
+    # Generate data for average plot
+    _generate_tsv(["language", "time"],
+                  list(sorted_data), example_name + "_avg")
 
-for language, time in sorted_data:
-    languages.append(language)
+    with open("template_graph.html", 'r') as template_file:
+        template = Template(template_file.read())
 
-# Generate data for average plot
-_generate_tsv(["language", "time"], list(sorted_data), "avg")
-
-with open("template_graph.html", 'r') as template_file:
-    template = Template(template_file.read())
-
-    with open("../benchmark.html", 'w') as output_file:
         # Create plot showing results for each run if more than 1
         if args.runs > 1:
             labels = ["run"] + languages
             all_data = []
 
             with open("mult_runs_template.html", 'r') as runs_template_file:
-                all_runs = runs_template_file.read()
+                all_runs_template = Template(runs_template_file.read())
+                all_runs = all_runs_template \
+                    .safe_substitute(example=example_name)
                 datasets = ""
 
                 for num, run in enumerate(data):
@@ -119,10 +145,19 @@ with open("template_graph.html", 'r') as template_file:
                 template = Template(template
                                     .safe_substitute(multiple_runs=all_runs))
 
-            _generate_tsv(labels, all_data, "all_runs")
+            _generate_tsv(labels, all_data, example_name + "_all_runs")
         else:
             template = Template(template.safe_substitute(multiple_runs=''))
 
-        output_file.write(template.safe_substitute(sieve_size=str(args.sieve)))
+        # Add this benchmark set of plots to the rest
+        benchmarks += template.safe_substitute(example=example_name)
+
+print("Generating HTML...")
+
+# Construct main HTML file from individual benchmark plots
+with open("main_template.html", 'r') as template_file:
+    template = Template(template_file.read())
+    with open("../benchmark.html", 'w') as output_file:
+        output_file.write(template.safe_substitute(benchmarks=benchmarks))
 
 print("Done!")

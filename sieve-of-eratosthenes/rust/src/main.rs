@@ -1,4 +1,7 @@
+extern crate time;
+
 use std::env;
+use time::{Duration, PreciseTime};
 
 fn main() {
     //Get range from command line (primes in range 1..input)
@@ -13,6 +16,7 @@ fn main() {
             return;
         }
     };
+    let start = PreciseTime::now();
 
     let mut primes = Vec::with_capacity(max);
     let mut items_pushed = 0;
@@ -43,5 +47,8 @@ fn main() {
         }
     }
 
-    println!("Number of primes: {}", prime_count)
+    let dur = Duration::num_milliseconds(&(start.to(PreciseTime::now())));
+
+    println!("Number of primes: {}", prime_count);
+    println!("Execution time: {}ms", dur);
 }
