@@ -21,6 +21,6 @@ There are two ways to run the code examples:
 
 ## Generating HTML Output:
 A HTML page can be generated in order to visualise the various run timings.
-+ Run the script in `output` using `python3 ./generate_data.py`.
-+ This runs all examples and optionally compiles if you pass the `-b` flag.
++ Run the script in `output` using `python3 ./generate_data.py -b`.
++ This compiles and runs all examples.
 + A HTML page (`benchmark.html`) with the results is generated and placed in the root directory of the project.
