@@ -77,7 +77,7 @@ for example_dir in example_dirs:
             print("Run no. {}...".format(run + 1))
         os.chdir(os.path.join("./..", example_dir))
         output = subprocess \
-            .check_output(["make", "SIEVESIZE=\""+str(args.sieve)+"\"",
+            .check_output(["make", "SIEVESIZE=\"" + str(args.sieve) + "\"",
                            "runall"],
                           stderr=subprocess.DEVNULL) \
             .decode(encoding='UTF-8')
@@ -108,8 +108,8 @@ for example_dir in example_dirs:
             avg_data[language] = avg_data.get(language, 0) + (time / args.runs)
 
     os.chdir(os.path.join("../output"))
+
     # Create plot for average times
-    avg_data.update((key, value/args.runs) for key, value in avg_data.items())
     sorted_data = sorted(avg_data.items(), key=operator.itemgetter(1))
 
     languages = []
