@@ -2,7 +2,15 @@ import Array._
 
 object sieve_scala {
   def main(args: Array[String]) {
-    var max = Integer.parseInt(args(0));
+    var max = 0;
+    try {
+        max = Integer.parseInt(args(0));
+    } catch {
+        case ex: NumberFormatException => {
+            println("Invalid input. Expected a single number.");
+            System.exit(1);
+        }
+    }
 
     val start = System.currentTimeMillis;
 

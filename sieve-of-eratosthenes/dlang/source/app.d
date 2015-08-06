@@ -16,6 +16,7 @@ void main(char[][] args)
     }
     catch(Exception e)
     {
+        writeln("Invalid input. Expected a single number.");
         exit(1);
     }
 
