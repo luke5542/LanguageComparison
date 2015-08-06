@@ -5,10 +5,19 @@ import std.array;
 import std.conv;
 import std.math;
 import std.datetime;
+import std.c.stdlib;
 
 void main(char[][] args)
 {
-    int max = to!int(args[1]);
+    int max;
+    try
+    {
+        max = to!int(args[1]);
+    }
+    catch(Exception e)
+    {
+        exit(1);
+    }
 
     StopWatch sw;
     sw.start();
