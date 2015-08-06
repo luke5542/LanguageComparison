@@ -24,3 +24,4 @@ A HTML page can be generated in order to visualise the various run timings.
 + Run the script in `output` using `python3 ./generate_data.py -b`.
 + This compiles and runs all examples.
 + A HTML page (`benchmark.html`) with the results is generated and placed in the root directory of the project.
++ For the sieve-of-eratosthenes examples, the `-s` flag can be used to set the maximum size of the sieve.
