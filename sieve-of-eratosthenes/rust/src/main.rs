@@ -1,9 +1,14 @@
 extern crate time;
 
 use std::env;
+use std::process;
 use time::{Duration, PreciseTime};
 
 fn main() {
+    if env::args().len() < 2 {
+        println!("Error: missing argument (number).");
+        process::exit(1);
+    }
     //Get range from command line (primes in range 1..input)
     let num = env::args().nth(1).unwrap();
 
@@ -13,7 +18,7 @@ fn main() {
         },
         Err(_) => {
             println!("Error: not a valid number!");
-            return;
+            process::exit(1);
         }
     };
     let start = PreciseTime::now();
