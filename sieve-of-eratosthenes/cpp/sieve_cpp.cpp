@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <chrono>
+#include <cstring>
 using namespace std;
 
 int main(int argc, char const** argv)
