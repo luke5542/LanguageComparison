@@ -9,6 +9,10 @@ import std.c.stdlib;
 
 void main(char[][] args)
 {
+    if(args.length < 1)
+    {
+        writeln("Error: missing argument (number).");
+    }
     int max;
     try
     {
@@ -16,7 +20,7 @@ void main(char[][] args)
     }
     catch(Exception e)
     {
-        writeln("Invalid input. Expected a single number.");
+        writeln("Error: invalid input. Expected a single number.");
         exit(1);
     }
 
