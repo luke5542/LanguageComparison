@@ -3,14 +3,23 @@
 #include <cstdlib>
 #include <math.h>
 #include <stdio.h>
+#include <ctype.h>
 #include <chrono>
 using namespace std;
 
 int main(int argc, char const** argv)
 {
-    if (argc != 2)
+    if(argc != 2)
     {
         return 1;
+    }
+
+    for (int pos = 0; pos < strlen(argv[1]); pos++)
+    {
+        if(!isdigit(argv[1][pos]))
+        {
+          return 1;
+        }
     }
 
     int max = atoi(argv[1]);

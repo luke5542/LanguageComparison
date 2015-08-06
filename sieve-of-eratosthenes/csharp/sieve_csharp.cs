@@ -3,10 +3,8 @@ using System.Diagnostics;
 
 public class PrimeSieve
 {
-    public static void Main(string[] args)
+    static void primes(int max)
     {
-        var max = int.Parse(args[0]);
-
         var primes = new bool[max];
 
         primes[0] = true;
@@ -34,5 +32,23 @@ public class PrimeSieve
         sw.Stop();
         Console.WriteLine("Number of primes: {0}", foundPrimes);
         Console.WriteLine("Execution time: {0}ms", sw.ElapsedMilliseconds);
+    }
+
+    public static int Main(string[] args)
+    {
+        try {
+            var max = int.Parse(args[0]);
+            primes(max);
+            return 0;
         }
+        catch (FormatException) {
+            return 1;
+        }
+        catch (OverflowException) {
+            return 1;
+        }
+        catch (IndexOutOfRangeException) {
+            return 1;
+        }
+    }
 }
