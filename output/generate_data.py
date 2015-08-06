@@ -76,11 +76,17 @@ for example_dir in example_dirs:
         if args.runs > 1:
             print("Run no. {}...".format(run + 1))
         os.chdir(os.path.join("./..", example_dir))
-        output = subprocess \
-            .check_output(["make", "SIEVESIZE=\"" + str(args.sieve) + "\"",
-                           "runall"],
-                          stderr=subprocess.DEVNULL) \
-            .decode(encoding='UTF-8')
+        if example_dir is "sieve-of-eratosthenes":
+            output = subprocess \
+                .check_output(["make", "SIEVESIZE=\"" + str(args.sieve) + "\"",
+                               "runall"],
+                              stderr=subprocess.DEVNULL) \
+                .decode(encoding='UTF-8')
+        else:
+            output = subprocess \
+                .check_output(["make", "runall"],
+                              stderr=subprocess.DEVNULL) \
+                .decode(encoding='UTF-8')
 
         print("Extracting results...")
 
