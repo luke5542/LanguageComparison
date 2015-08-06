@@ -1,5 +1,9 @@
 var max = process.argv[2];
 
+if (isNaN(max)) {
+  process.exit(1);
+}
+
 var start = new Date().getTime();
 
 var primes = [false, false];
@@ -19,7 +23,7 @@ for (var num = 0; num < Math.sqrt(max); ++num) {
         --numPrimes;
         primes[square] = false;
       }
-      square += num; 
+      square += num;
     }
   }
 }
