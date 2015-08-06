@@ -1,8 +1,11 @@
 use strict;
 use warnings;
 use Time::HiRes qw/ time /;
+use Scalar::Util qw/ looks_like_number /;
 
 my $max = $ARGV[0];
+
+exit 1 if !looks_like_number($max);
 
 my $start = time;
 

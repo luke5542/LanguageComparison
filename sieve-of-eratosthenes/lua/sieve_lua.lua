@@ -2,6 +2,10 @@ require "table"
 
 max = tonumber(arg[1])
 
+if max == nil then
+  os.exit(1)
+end
+
 local getTime = os.clock
 local sqrt = math.sqrt
 local ceil = math.ceil
