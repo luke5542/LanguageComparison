@@ -1,14 +1,23 @@
 #include <math.h>
 #include <stdio.h>
-#include <stdlib.h> 
+#include <stdlib.h>
 #include <time.h>
 #include <string.h>
+#include <ctype.h>
 
 int main(int argc, char const** argv)
 {
     if (argc != 2)
     {
         return 1;
+    }
+
+    for (int pos = 0; pos < strlen(argv[1]); pos++)
+    {
+        if(!isdigit(argv[1][pos]))
+        {
+          return 1;
+        }
     }
 
     unsigned int max = atoi(argv[1]);
@@ -38,7 +47,7 @@ int main(int argc, char const** argv)
     }
 
     clock_t end = clock();
-    float duration = (((float)end - (float)begin) / 1000000.0F ) * 1000;   
+    float duration = (((float)end - (float)begin) / 1000000.0F ) * 1000;
     printf("Number of primes: %i\n", numPrimes);
     printf("Execution time: %fms\n", duration);
 

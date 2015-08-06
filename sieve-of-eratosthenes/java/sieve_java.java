@@ -4,11 +4,8 @@ import java.math.RoundingMode;
 
 public class sieve_java
 {
-
-    public static void main(String[] args)
+    static void primes(int max)
     {
-
-        int max = Integer.parseInt(args[0]);
         DecimalFormat df = new DecimalFormat("#.###"); df.setRoundingMode(RoundingMode.CEILING);
         long startTime = System.nanoTime();
 
@@ -41,5 +38,17 @@ public class sieve_java
         System.out.println("Number of primes: " + foundPrimes);
         System.out.println("Execution time: " +
           df.format((endTime - startTime)/1e6) + "ms");
+    }
+
+    public static void main(String[] args)
+    {
+
+        try {
+            int max = Integer.parseInt(args[0]);
+            primes(max);
+        }
+        catch(NumberFormatException | ArrayIndexOutOfBoundsException e) {
+            System.exit(1);
+        }
     }
 }
