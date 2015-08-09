@@ -13,29 +13,17 @@ import subprocess
 import operator
 import argparse
 import os
+import csv
 
 from string import Template
+from collections import namedtuple
 
 
 def _generate_tsv(data_labels, data, name):
     with open(name + ".tsv", 'w') as data_file:
-        line = ""
-        for label in data_labels:
-            if line is not "":
-                line += '\t'
-            line += label
-
-        line += '\n'
-        data_file.write(line)
-        for data_set in data:
-            line = ""
-            for item in data_set:
-                if line is not "":
-                    line += '\t'
-                line += str(item)
-
-            line += '\n'
-            data_file.write(line)
+        tsv = csv.writer(data_file, delimiter='\t')
+        tsv.writerow(data_labels)
+        tsv.writerows(data)
 
 
 def _build(directory):
