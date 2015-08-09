@@ -1,5 +1,7 @@
 DIRS := ${shell ./getBuildableSolutions.sh}
 
+SIEVESIZE := 10000000
+
 buildall:
 	@$(foreach dir, $(DIRS), $(MAKE) -C $(dir) build &&) true
 
