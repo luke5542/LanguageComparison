@@ -27,8 +27,8 @@ def _generate_tsv(data_labels, data, name):
 
         line += '\n'
         data_file.write(line)
-        line = ""
         for data_set in data:
+            line = ""
             for item in data_set:
                 if line is not "":
                     line += '\t'
@@ -36,7 +36,6 @@ def _generate_tsv(data_labels, data, name):
 
             line += '\n'
             data_file.write(line)
-            line = ""
 
 
 def _build(directory):
@@ -45,40 +44,43 @@ def _build(directory):
     subprocess.call(["make", "buildall"])
 
 
-parser = argparse.ArgumentParser()
-parser.add_argument("-s", "--sieve", action="store",
-                    default=10000000, type=int)
-parser.add_argument("-r", "--runs", action="store",
-                    default=1, type=int)
-parser.add_argument("-b", "--build", action="store_true")
+def _extract_results(output):
+    run_data = {}
+    language = None
+    time = None
 
-args = parser.parse_args()
+    for line in output:
+        if "Running" in line:
+            language = line.split(' ')[1]
+            time = None
 
-example_dirs = [example_dir for example_dir in os.listdir("./..")
-                if os.path.isdir(os.path.join("./..", example_dir))
-                and example_dir not in [".git", "bin", "output"]]
+        if "Execution time" in line:
+            time = line.split(' ')[2][:-2]
 
-if args.build:
-    print("Building examples...")
-    for directory in example_dirs:
-        _build(directory)
+        if language is not None and time is not None:
+            run_data[language] = float(time)
 
-benchmarks = ""
-for example_dir in example_dirs:
-    print("Running", example_dir, "examples...")
-    example_name = example_dir.split('-')[0]
+    return run_data
+
+
+def _benchmark_run(dir_name, runs, settings):
+    print("Running", dir_name, "examples...")
+    example_name = dir_name.split('-')[0]
 
     data = []
     avg_data = {}
 
-    for run in range(0, args.runs):
+    for run in range(0, runs):
 
-        if args.runs > 1:
+        if runs > 1:
             print("Run no. {}...".format(run + 1))
-        os.chdir(os.path.join("./..", example_dir))
-        if example_dir is "sieve-of-eratosthenes":
+
+        os.chdir(os.path.join("./..", dir_name))
+
+        if dir_name == "sieve-of-eratosthenes":
             output = subprocess \
-                .check_output(["make", "SIEVESIZE=\"" + str(args.sieve) + "\"",
+                .check_output(["make",
+                               "SIEVESIZE=\"" + settings["SIEVESIZE"] + "\"",
                                "runall"],
                               stderr=subprocess.DEVNULL) \
                 .decode(encoding='UTF-8')
@@ -90,24 +92,7 @@ for example_dir in example_dirs:
 
         print("Extracting results...")
 
-        lines = output.split('\n')
-
-        run_data = {}
-        language = None
-        time = None
-
-        for line in lines:
-            if "Running" in line:
-                tokens = line.split(' ')
-                language = tokens[1]
-                time = None
-
-            if "Execution" in line:
-                tokens = line.split(' ')
-                time = tokens[2][:-2]
-
-            if language is not None and time is not None:
-                run_data[language] = float(time)
+        run_data = _extract_results(output.split('\n'))
 
         data.append(run_data)
         for language, time in run_data.items():
@@ -139,7 +124,6 @@ for example_dir in example_dirs:
                 all_runs_template = Template(runs_template_file.read())
                 all_runs = all_runs_template \
                     .safe_substitute(example=example_name)
-                datasets = ""
 
                 for num, run in enumerate(data):
                     run_data = ["Run " + str((num + 1))]
@@ -155,10 +139,35 @@ for example_dir in example_dirs:
         else:
             template = Template(template.safe_substitute(multiple_runs=''))
 
-        # Add this benchmark set of plots to the rest
-        benchmarks += template.safe_substitute(example=example_name)
+        return template.safe_substitute(example=example_name)
+
+
+parser = argparse.ArgumentParser()
+parser.add_argument("-s", "--sieve", action="store",
+                    default=10000000, type=int)
+parser.add_argument("-r", "--runs", action="store",
+                    default=1, type=int)
+parser.add_argument("-b", "--build", action="store_true")
+
+args = parser.parse_args()
+
+example_dirs = [example_dir for example_dir in os.listdir("./..")
+                if os.path.isdir(os.path.join("./..", example_dir))
+                and example_dir not in [".git", "bin", "output"]]
+
+if args.build:
+    print("Building examples...")
+    for directory in example_dirs:
+        _build(directory)
+
+benchmarks = []
+
+for example_dir in example_dirs:
+    benchmarks.append(_benchmark_run(example_dir, args.runs,
+                      {"SIEVESIZE": str(args.sieve)}))
 
 print("Generating HTML...")
+benchmarks = '\n'.join(benchmarks)
 
 # Construct main HTML file from individual benchmark plots
 with open("main_template.html", 'r') as template_file:
