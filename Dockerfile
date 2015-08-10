@@ -32,6 +32,7 @@ RUN \
     mono-devel \
     nodejs \
     openjdk-7-jdk \
+    php5-common \
     pypy \
     python2.7-minimal \
     ruby \
