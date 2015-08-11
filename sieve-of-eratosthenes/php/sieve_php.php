@@ -18,7 +18,7 @@ foreach(range(2, intval(floor(sqrt(floatval($max))))) as $num) {
             $primes[pow($num, 2)] = 0;
         }
         else {
-            foreach(range(pow($num, 2), $max + 1, $num) as $square) {
+            foreach(range($num * $num, $max + 1, $num) as $square) {
                 $primes[$square] = 0;
             }
         }

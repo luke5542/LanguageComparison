@@ -19,7 +19,7 @@ local primeCount = max - 1
 
 for num = 2, ceil(sqrt(max)) do
   if primes[num] then
-    for square = num ^ 2, max + 1, num do
+    for square = num * num, max + 1, num do
       if primes[square] then
         primeCount = primeCount - 1
       end

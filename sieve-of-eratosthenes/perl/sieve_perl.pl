@@ -15,7 +15,7 @@ my $prime_count = $max - 2;
 
 foreach my $num (2..sqrt($max)) {
   if ($primes[$num]) {
-    for (my $square = $num**2; $square < $max + 1; $square += $num) {
+    for (my $square = $num * $num; $square < $max + 1; $square += $num) {
       if ($primes[$square]) {
         $prime_count--;
       }
