@@ -14,6 +14,9 @@ run: build sieve_python.py
 	@echo "Running pypy sieve"
 	pypy sieve_python.py ${SIEVESIZE}
 
+	@echo "Running pypy3 sieve"
+	pypy3 sieve_python.py ${SIEVESIZE}
+
 clean:
 
-.PHONY: run 
+.PHONY: run

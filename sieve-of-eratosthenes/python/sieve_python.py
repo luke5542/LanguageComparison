@@ -13,10 +13,8 @@ primes = [False] * 2 + [True] * (max - 1)
 
 for num in range(2, int(math.ceil(math.sqrt(max)))):
     if primes[num]:
-        square = num * num
-        while square < max:
+        for square in range(int(num * num), max + 1, num):
             primes[square] = False
-            square += num
 
 end = int(round(time.time() * 1000))
 
