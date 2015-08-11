@@ -38,6 +38,8 @@ RUN \
     ruby \
     scala \
     unzip \
+    camlp4 \
+    opam \
     && \
 
   # Rust is special - so install that seperately
