@@ -5,6 +5,8 @@ public class PrimeSieve
 {
     static void primes(int max)
     {
+        var sw = Stopwatch.StartNew();
+
         var primes = new bool[max];
 
         primes[0] = true;
@@ -13,7 +15,6 @@ public class PrimeSieve
         var foundPrimes = max - 2;
         var sqrtMax = (int)Math.Ceiling(Math.Sqrt(max));
 
-        var sw = Stopwatch.StartNew();
         for (var i = 0; i < sqrtMax; i++)
         {
             if (primes[i]) continue;
