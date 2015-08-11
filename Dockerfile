@@ -34,6 +34,7 @@ RUN \
     openjdk-7-jdk \
     php5-common \
     pypy \
+    pypy3 \
     python2.7-minimal \
     ruby \
     scala \
