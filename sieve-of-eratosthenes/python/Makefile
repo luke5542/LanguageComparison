@@ -1,6 +1,6 @@
 include ../Makefile.mk
 
-EXECUTABLES = python2 python3 pypy
+EXECUTABLES = python2 python3 pypy pypy3
 
 build: $(dependenciesInstalled)
 
