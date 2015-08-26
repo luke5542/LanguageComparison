@@ -17,8 +17,8 @@ bin/sieve_cpp_clang: sieve_cpp.cpp bin/
 bin/sieve_cpp_gcc: sieve_cpp.cpp bin/
 	g++ -std=c++11 -Ofast sieve_cpp.cpp -o bin/sieve_cpp_gcc
 
-bin:
+bin/:
 	mkdir bin
 
-clean: 
+clean:
 	@rm -rf bin/
